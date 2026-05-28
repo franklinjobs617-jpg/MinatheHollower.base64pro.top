@@ -8,7 +8,8 @@ Next.js + Tailwind site for a Mina the Hollower guide hub.
 npm run dev
 ```
 
-Set `NEXT_PUBLIC_SITE_URL` before production builds so canonical URLs, sitemap, and robots use the real subdomain.
+Canonical URLs, sitemap, and robots default to `https://minathehollower.base64pro.top`.
+Override with `NEXT_PUBLIC_SITE_URL` only if deploying to a different domain.
 
 ## Content model
 
@@ -20,4 +21,3 @@ Guide content lives in `src/lib/site.ts`. The same data source feeds visible con
 - Use original screenshots only. Pending capture areas must stay labeled.
 - Keep tables semantic and visible.
 - Do not publish standalone thin pages for unverified items.
-

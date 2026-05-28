@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "Hollow Guidebook",
   gameName: "Mina the Hollower",
-  defaultUrl: "http://localhost:3000",
+  defaultUrl: "https://minathehollower.base64pro.top",
   description:
     "Mina the Hollower guides for routes, weapons, trinkets, bosses, platforms, saves, and first-run decisions.",
   author: "Hollow Guidebook editors",
