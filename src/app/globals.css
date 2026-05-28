@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+:root {
+  --color-hollow-green: #58cc02;
+  --color-plasma-blue: #1cb0f6;
+  --color-duo-green-light: #d7ffb8;
+  --color-candle-gold: #ffc700;
+  --color-grape-soda: #a570ff;
+  --color-blood-rose: #cc348d;
+  --color-snow-white: #ffffff;
+  --color-bone-white: #fffdf5;
+  --color-parchment: #f8f1dc;
+  --color-cloud-gray: #e5e5e5;
+  --color-silver: #afafaf;
+  --color-grave-gray: #777777;
+  --color-charcoal: #4b4b4b;
+  --color-crypt-ink: #3c2f2f;
+  --color-shadow-green: #3f8f01;
+}
+
+@theme inline {
+  --color-hollow-green: var(--color-hollow-green);
+  --color-plasma-blue: var(--color-plasma-blue);
+  --color-duo-green-light: var(--color-duo-green-light);
+  --color-candle-gold: var(--color-candle-gold);
+  --color-grape-soda: var(--color-grape-soda);
+  --color-blood-rose: var(--color-blood-rose);
+  --color-snow-white: var(--color-snow-white);
+  --color-bone-white: var(--color-bone-white);
+  --color-parchment: var(--color-parchment);
+  --color-cloud-gray: var(--color-cloud-gray);
+  --color-silver: var(--color-silver);
+  --color-grave-gray: var(--color-grave-gray);
+  --color-charcoal: var(--color-charcoal);
+  --color-crypt-ink: var(--color-crypt-ink);
+  --color-shadow-green: var(--color-shadow-green);
+
+  --font-feather: var(--font-feather);
+  --font-din-round: var(--font-din-round);
+
+  --text-caption: 13px;
+  --text-body: 15px;
+  --text-heading-sm: 19px;
+  --text-heading: 32px;
+  --text-heading-lg: 48px;
+  --text-display: 64px;
+
+  --leading-caption: 1.4;
+  --leading-body: 1.4;
+  --leading-heading-sm: 1.2;
+  --leading-heading: 1.2;
+  --leading-heading-lg: 1.2;
+  --leading-display: 1.2;
+
+  --tracking-caption: 0.69px;
+  --tracking-body: 0.8px;
+  --tracking-heading-sm: 1.01px;
+  --tracking-heading: 1.7px;
+  --tracking-heading-lg: -0.96px;
+  --tracking-display: -1.28px;
+
+  --spacing-8: 8px;
+  --spacing-10: 10px;
+  --spacing-12: 12px;
+  --spacing-14: 14px;
+  --spacing-16: 16px;
+  --spacing-18: 18px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-36: 36px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+  --spacing-64: 64px;
+  --spacing-80: 80px;
+
+  --radius-xl: 12px;
+  --container-page: 1140px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-bone-white);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bone-white);
+  color: var(--color-crypt-ink);
+  font-family: var(--font-din-round), "Nunito Sans", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.duo-button {
+  align-items: center;
+  background: var(--color-hollow-green);
+  border: 2px solid var(--color-hollow-green);
+  border-radius: 12px;
+  box-shadow: 0 4px 0 var(--color-shadow-green);
+  color: var(--color-snow-white);
+  display: inline-flex;
+  font-size: 15px;
+  font-weight: 700;
+  gap: 8px;
+  justify-content: center;
+  letter-spacing: 0.8px;
+  line-height: 1.15;
+  min-height: 48px;
+  padding: 14px 24px;
+  text-transform: uppercase;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.duo-button:hover {
+  transform: translateY(1px);
+  box-shadow: 0 3px 0 var(--color-shadow-green);
+}
+
+.duo-button:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--color-shadow-green);
+}
+
+.nav-link {
+  color: var(--color-grave-gray);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.69px;
+  text-transform: uppercase;
+  transition: color 150ms ease;
+}
+
+.nav-link:hover {
+  color: var(--color-plasma-blue);
+}
+
+::selection {
+  background: var(--color-duo-green-light);
+  color: var(--color-crypt-ink);
+}
+
