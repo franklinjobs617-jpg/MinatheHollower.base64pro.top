@@ -84,6 +84,7 @@
 
 html {
   background: var(--color-bone-white);
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
@@ -95,6 +96,8 @@ body {
   font-size: 15px;
   font-weight: 500;
   letter-spacing: 0.8px;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 a {
@@ -156,4 +159,3 @@ a {
   background: var(--color-duo-green-light);
   color: var(--color-crypt-ink);
 }
-

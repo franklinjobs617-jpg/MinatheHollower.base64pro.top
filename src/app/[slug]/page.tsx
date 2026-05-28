@@ -88,27 +88,10 @@ export default async function GuidePage({ params }: GuidePageProps) {
     },
   };
 
-  const faq =
-    guide.faqs.length > 0
-      ? {
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: guide.faqs.map((item) => ({
-            "@type": "Question",
-            name: item.question,
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: item.answer,
-            },
-          })),
-        }
-      : null;
-
   return (
     <>
-      <JsonLd data={faq ? [breadcrumb, article, faq] : [breadcrumb, article]} />
+      <JsonLd data={[breadcrumb, article]} />
       <GuideLayout guide={guide} />
     </>
   );
 }
-

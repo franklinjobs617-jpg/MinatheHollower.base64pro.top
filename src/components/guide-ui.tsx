@@ -3,7 +3,6 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import {
   ArrowRight,
-  Clock3,
   ExternalLink,
   Gamepad2,
   Map,
@@ -11,7 +10,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import {
-  getGameImage,
+  getGuideImage,
   getRelatedGuides,
   Guide,
   GuideTable as GuideTableType,
@@ -145,7 +144,7 @@ function Footer() {
         <div>
           <p className="font-feather text-heading-sm text-hollow-green">Hollow Guidebook</p>
           <p className="mt-8 max-w-2xl text-body leading-body tracking-body text-grave-gray">
-            Mina the Hollower guide notes for routes, weapons, trinkets,
+            Mina the Hollower guides for routes, weapons, trinkets,
             platforms, saves, and first-run decisions.
           </p>
         </div>
@@ -162,27 +161,31 @@ export function GuideSections({ guide }: { guide: Guide }) {
   return (
     <div className="grid gap-24">
       {guide.sections.map((section, index) => (
-        <section className="rounded-xl border-2 border-cloud-gray bg-snow-white p-24" key={section.heading}>
-          <div className="grid gap-20 lg:grid-cols-[1.05fr_0.95fr]">
-            <div>
+        <section className="min-w-0 rounded-xl border-2 border-cloud-gray bg-snow-white p-24" key={section.heading}>
+          <div className="grid min-w-0 items-stretch gap-20 lg:grid-cols-[1.05fr_0.95fr]">
+            <div className="min-w-0">
               <h2 className="font-feather text-heading text-hollow-green">{section.heading}</h2>
               {section.body?.map((paragraph) => (
-                <p className="mt-16 text-body leading-body tracking-body text-crypt-ink" key={paragraph}>
+                <p className="mt-16 break-words text-body leading-body tracking-body text-crypt-ink" key={paragraph}>
                   {paragraph}
                 </p>
               ))}
               {section.checklist && (
                 <ul className="mt-16 grid gap-12">
                   {section.checklist.map((item) => (
-                    <li className="flex gap-12 text-body leading-body tracking-body" key={item}>
+                    <li className="flex min-w-0 gap-12 text-body leading-body tracking-body" key={item}>
                       <Sparkles className="mt-1 shrink-0 text-candle-gold" size={18} strokeWidth={3} />
-                      <span>{item}</span>
+                      <span className="min-w-0 break-words">{item}</span>
                     </li>
                   ))}
                 </ul>
               )}
             </div>
-            <OfficialMediaCard media={getGameImage(guide.slug, index)} />
+            <OfficialMediaCard
+              className="h-full min-h-[260px]"
+              imageClassName="h-full min-h-[260px] w-full object-cover"
+              media={getGuideImage(guide.slug, index + 1)}
+            />
           </div>
           {section.table && <GuideTable table={section.table} />}
         </section>
@@ -197,30 +200,30 @@ export function GuideAtGlance({ guide }: { guide: Guide }) {
   const firstRows = firstSection?.table?.rows.slice(0, 3) ?? [];
 
   return (
-    <section className="rounded-xl border-2 border-cloud-gray bg-snow-white p-24">
+    <section className="min-w-0 rounded-xl border-2 border-cloud-gray bg-snow-white p-24">
       <h2 className="font-feather text-heading text-hollow-green">At a glance</h2>
-      <div className="mt-16 grid gap-16 lg:grid-cols-3">
-        <div className="rounded-xl border-2 border-cloud-gray bg-parchment p-16">
+      <div className="mt-16 grid min-w-0 gap-16 lg:grid-cols-3">
+        <div className="min-w-0 rounded-xl border-2 border-cloud-gray bg-parchment p-16">
           <p className="text-caption font-bold uppercase tracking-caption text-grave-gray">
             Best for
           </p>
-          <p className="mt-8 text-body leading-body tracking-body text-crypt-ink">
+          <p className="mt-8 break-words text-body leading-body tracking-body text-crypt-ink">
             {guide.searchIntent}
           </p>
         </div>
-        <div className="rounded-xl border-2 border-cloud-gray bg-parchment p-16">
+        <div className="min-w-0 rounded-xl border-2 border-cloud-gray bg-parchment p-16">
           <p className="text-caption font-bold uppercase tracking-caption text-grave-gray">
             Start with
           </p>
-          <p className="mt-8 text-body leading-body tracking-body text-crypt-ink">
+          <p className="mt-8 break-words text-body leading-body tracking-body text-crypt-ink">
             {firstChecklist[0] ?? firstRows[0]?.[0] ?? "Read the quick answer, then use the table below."}
           </p>
         </div>
-        <div className="rounded-xl border-2 border-cloud-gray bg-parchment p-16">
+        <div className="min-w-0 rounded-xl border-2 border-cloud-gray bg-parchment p-16">
           <p className="text-caption font-bold uppercase tracking-caption text-grave-gray">
             Next step
           </p>
-          <p className="mt-8 text-body leading-body tracking-body text-crypt-ink">
+          <p className="mt-8 break-words text-body leading-body tracking-body text-crypt-ink">
             {firstChecklist[1] ?? firstRows[1]?.[1] ?? "Open a related guide when the next decision appears in-game."}
           </p>
         </div>
@@ -231,7 +234,24 @@ export function GuideAtGlance({ guide }: { guide: Guide }) {
 
 function GuideTable({ table }: { table: GuideTableType }) {
   return (
-    <div className="mt-18 overflow-x-auto rounded-xl border-2 border-cloud-gray">
+    <>
+      <div className="mt-18 grid gap-12 md:hidden">
+        {table.rows.map((row) => (
+          <div className="rounded-xl border-2 border-cloud-gray bg-parchment p-16" key={row.join("-")}>
+            {row.map((cell, index) => (
+              <div className="mt-10 first:mt-0" key={`${cell}-${index}`}>
+                <p className="text-caption font-bold uppercase tracking-caption text-grave-gray">
+                  {table.columns[index]}
+                </p>
+                <p className="mt-4 break-words text-body leading-body tracking-body text-crypt-ink">
+                  {cell}
+                </p>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div className="mt-18 hidden overflow-hidden rounded-xl border-2 border-cloud-gray md:block">
       <table className="min-w-[720px] w-full border-collapse bg-snow-white text-left">
         <caption className="sr-only">{table.caption}</caption>
         <thead className="bg-parchment">
@@ -262,23 +282,24 @@ function GuideTable({ table }: { table: GuideTableType }) {
           ))}
         </tbody>
       </table>
-    </div>
+      </div>
+    </>
   );
 }
 
 export function Sources({ guide }: { guide: Guide }) {
-  const sourceKeys = Array.from(new Set([...guide.sources, "press"]));
+  const sourceKeys = Array.from(new Set(guide.sources));
 
   return (
     <section className="rounded-xl border-2 border-cloud-gray bg-snow-white p-24">
       <h2 className="text-heading-sm font-bold tracking-heading-sm">Further reading</h2>
-      <ul className="mt-16 grid gap-12">
+      <ul className="mt-16 flex flex-wrap gap-12">
         {sourceKeys.map((key) => {
           const source = sources[key];
           return (
             <li key={key}>
               <a
-                className="inline-flex items-center gap-8 text-body font-bold tracking-body text-plasma-blue underline-offset-4 hover:underline"
+                className="inline-flex items-center gap-8 rounded-xl border-2 border-cloud-gray px-16 py-12 text-caption font-bold uppercase tracking-caption text-plasma-blue transition hover:border-plasma-blue"
                 href={source.url}
                 rel="noreferrer"
                 target="_blank"
@@ -286,9 +307,6 @@ export function Sources({ guide }: { guide: Guide }) {
                 {source.label}
                 <ExternalLink size={16} strokeWidth={3} />
               </a>
-              <p className="mt-4 text-caption leading-caption tracking-caption text-grave-gray">
-                {source.note}
-              </p>
             </li>
           );
         })}
@@ -321,44 +339,12 @@ export function RelatedGuides({ guide }: { guide: Guide }) {
   );
 }
 
-export function FaqBlock({ guide }: { guide: Guide }) {
-  if (!guide.faqs.length) return null;
-
-  return (
-    <section className="rounded-xl border-2 border-cloud-gray bg-snow-white p-24">
-      <h2 className="text-heading-sm font-bold tracking-heading-sm">FAQ</h2>
-      <div className="mt-16 grid gap-12">
-        {guide.faqs.map((faq) => (
-          <div className="rounded-xl border-2 border-cloud-gray bg-bone-white p-16" key={faq.question}>
-            <h3 className="text-body font-bold tracking-body">{faq.question}</h3>
-            <p className="mt-8 text-body leading-body tracking-body text-grave-gray">{faq.answer}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-export function UpdateLog({ guide }: { guide: Guide }) {
-  return (
-    <section className="rounded-xl border-2 border-cloud-gray bg-snow-white p-24">
-      <div className="flex items-center gap-10">
-        <Clock3 className="text-hollow-green" size={22} strokeWidth={3} />
-        <h2 className="text-heading-sm font-bold tracking-heading-sm">Update Log</h2>
-      </div>
-      <ul className="mt-16 grid gap-10">
-        {guide.updateLog.map((item) => (
-          <li className="text-body leading-body tracking-body text-grave-gray" key={item}>
-            {item}
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
+export function FaqBlock() {
+  return null;
 }
 
 export function GuideHero({ guide }: { guide: Guide }) {
-  const heroMedia = getGameImage(guide.slug, 4);
+  const heroMedia = getGuideImage(guide.slug, 0);
 
   return (
     <section className="mx-auto max-w-page px-16 py-32 md:px-24 md:py-40">

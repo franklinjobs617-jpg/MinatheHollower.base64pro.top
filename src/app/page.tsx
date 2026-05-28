@@ -18,7 +18,6 @@ import {
   PrimaryButton,
 } from "@/components/guide-ui";
 import {
-  getGameImage,
   getSiteUrl,
   gameImages,
   guides,
@@ -28,11 +27,19 @@ import {
 import { JsonLd } from "@/components/json-ld";
 
 export const metadata: Metadata = {
-  title: "Mina the Hollower Guides | Hollow Guidebook",
+  title: "Mina the Hollower Guides | Weapons, Trinkets, Bosses",
   description:
     "Mina the Hollower guides for beginners, weapons, trinkets, bosses, platforms, save behavior, Steam Deck settings, and route notes.",
   alternates: {
     canonical: getSiteUrl(),
+  },
+  openGraph: {
+    title: "Mina the Hollower Guides | Hollow Guidebook",
+    description:
+      "Mina the Hollower guides for beginners, weapons, trinkets, bosses, platforms, save behavior, Steam Deck settings, and route notes.",
+    url: getSiteUrl(),
+    siteName: siteConfig.name,
+    type: "website",
   },
 };
 
@@ -70,12 +77,12 @@ const systems = [
   {
     system: "Trinkets",
     playerQuestion: "Which build pieces are worth tracking?",
-    answer: "Track effect, location, best use, and image evidence together.",
+    answer: "Track effect, location, best use, and route value together.",
     href: "/trinkets",
   },
   {
     system: "Boss prep",
-    playerQuestion: "What should I check before entering a fight?",
+    playerQuestion: "What needs checking before entering a fight?",
     answer: "Confirm resources, safe setup, arena hazards, and the nearest return point.",
     href: "/bosses",
   },
@@ -87,7 +94,7 @@ const systems = [
   },
   {
     system: "Map notes",
-    playerQuestion: "How should I follow route guidance?",
+    playerQuestion: "How should route guidance be followed?",
     answer: "Use landmarks, risk notes, and return paths instead of area names alone.",
     href: "/map",
   },
@@ -122,7 +129,7 @@ export default function Home() {
         ]}
       />
       <main>
-        <section className="relative min-h-[560px] overflow-hidden border-b-2 border-cloud-gray bg-crypt-ink">
+        <section className="relative min-h-[620px] overflow-hidden bg-crypt-ink">
           <Image
             alt={heroMedia.alt}
             className="absolute inset-0 h-full w-full object-cover object-[62%_50%]"
@@ -132,13 +139,13 @@ export default function Home() {
             src={heroMedia.src}
           />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(27,16,18,0.94)_0%,rgba(31,18,21,0.82)_36%,rgba(31,18,21,0.32)_68%,rgba(31,18,21,0.12)_100%)]" />
-          <div className="relative mx-auto flex min-h-[560px] max-w-page items-end px-16 py-40 md:px-24 md:py-48">
+          <div className="relative z-20 mx-auto flex min-h-[620px] max-w-page items-end px-16 pb-[104px] pt-40 md:px-24 md:pb-[112px] md:pt-48">
             <div className="max-w-3xl">
               <p className="mb-14 text-caption font-bold uppercase tracking-caption text-candle-gold">
                 Mina the Hollower guide hub
               </p>
               <h1 className="font-feather text-heading-lg leading-heading-lg tracking-heading-lg text-snow-white md:text-display md:leading-display md:tracking-display">
-                Practical route notes for your first run.
+                Mina the Hollower guides for a safer first run.
               </h1>
               <p className="mt-16 max-w-2xl text-heading-sm leading-[1.35] tracking-heading-sm text-snow-white/90">
                 {hubQuickAnswer}
@@ -149,18 +156,19 @@ export default function Home() {
                   className="inline-flex min-h-48 items-center justify-center rounded-xl border-2 border-snow-white/70 bg-snow-white px-24 py-14 text-caption font-bold uppercase tracking-caption text-plasma-blue transition hover:border-plasma-blue"
                   href="/trinkets"
                 >
-                  Open trinket tracker
+                  Open trinket guide
                 </Link>
               </div>
             </div>
           </div>
+          <HeroPlayfulEdge />
         </section>
 
         <section className="mx-auto max-w-page px-16 pb-80 pt-48 md:px-24">
           <SectionHeader
             eyebrow="Start here"
-            title="Three useful paths before you scroll."
-            text="Pick the question closest to what you are doing now: starting the game, choosing gear, or deciding which platform to play on."
+            title="Three useful paths before scrolling."
+            text="Pick the current problem: starting the game, choosing gear, or deciding which platform to play on."
           />
           <div className="grid gap-16 md:grid-cols-3">
             {startCards.map((card) => (
@@ -173,7 +181,7 @@ export default function Home() {
           <SectionHeader
             eyebrow="Guide library"
             title="Find the exact page for the problem."
-            text="Each card leads to a focused page with a quick answer, a practical table or checklist, gameplay images, references, and an update log."
+            text="Each card leads to a focused page with a quick answer, practical decisions, gameplay images, and deeper player context."
           />
           <div className="grid gap-16 md:grid-cols-2 lg:grid-cols-3">
             {guides.map((guide, index) => (
@@ -185,7 +193,7 @@ export default function Home() {
                 <OfficialMediaCard
                   className="-m-24 mb-16 rounded-b-none border-0 border-b-2"
                   imageClassName="h-[150px] w-full object-cover"
-                  media={getGameImage(guide.slug, index)}
+                  media={gameImages[index]}
                 />
                 <div className="mb-18 flex items-center justify-between gap-12">
                   <IconBadge type={index % 3 === 0 ? "gamepad" : index % 3 === 1 ? "map" : "alert"} />
@@ -212,13 +220,13 @@ export default function Home() {
         <section className="mx-auto max-w-page px-16 pb-80 md:px-24">
           <div className="grid gap-24 rounded-xl border-2 border-cloud-gray bg-snow-white p-24 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
-              <OfficialMediaCard media={getGameImage("systems", 2)} />
+              <OfficialMediaCard media={gameImages[11]} />
               <div className="mt-16 rounded-xl border-2 border-cloud-gray bg-parchment p-16">
                 <p className="text-caption font-bold uppercase tracking-caption text-grave-gray">
                   Best use
                 </p>
                 <p className="mt-8 text-body leading-body tracking-body text-crypt-ink">
-                  Use this table when you know what you are stuck on, but not which guide page
+                  Use this table when the current blocker is clear, but the right guide page
                   has the answer.
                 </p>
               </div>
@@ -226,10 +234,31 @@ export default function Home() {
             <div>
               <SectionHeader
                 eyebrow="Systems"
-                title="What each guide helps you decide."
+                title="What each guide helps decide."
                 text="The site is organized around player tasks, not raw keywords. Use the table to jump from an in-game problem to the right guide."
               />
-              <div className="overflow-x-auto rounded-xl border-2 border-cloud-gray">
+              <div className="md:hidden">
+                <div className="grid gap-12">
+                  {systems.map((item) => (
+                    <Link
+                      className="rounded-xl border-2 border-cloud-gray bg-parchment p-16 transition hover:border-plasma-blue"
+                      href={item.href}
+                      key={item.system}
+                    >
+                      <span className="text-caption font-bold uppercase tracking-caption text-plasma-blue">
+                        {item.system}
+                      </span>
+                      <span className="mt-8 block text-body font-bold leading-body tracking-body text-crypt-ink">
+                        {item.playerQuestion}
+                      </span>
+                      <span className="mt-6 block text-body leading-body tracking-body text-grave-gray">
+                        {item.answer}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              <div className="hidden overflow-hidden rounded-xl border-2 border-cloud-gray md:block">
                 <table className="min-w-[720px] w-full border-collapse bg-snow-white text-left">
                   <caption className="sr-only">Mina the Hollower guide systems table</caption>
                   <thead className="bg-parchment">
@@ -275,7 +304,7 @@ export default function Home() {
             text="Use these images to understand the game's combat rooms, map screens, dialogue scenes, and platforming spaces before opening a specific guide."
           />
           <div className="grid gap-16 md:grid-cols-2 lg:grid-cols-3">
-            {gameImages.slice(0, 6).map((media) => (
+            {gameImages.slice(15, 21).map((media) => (
               <OfficialMediaCard key={media.src} media={media} />
             ))}
           </div>
@@ -285,18 +314,18 @@ export default function Home() {
           <div className="grid gap-16 md:grid-cols-3">
             <InfoTile
               icon={<Clock3 size={24} strokeWidth={3} />}
-              title="If you have 10 minutes"
+              title="For a 10-minute session"
               text="Open the beginner guide, read the first-hour checklist, then check the save-system page before taking a risky route."
             />
             <InfoTile
               icon={<ShieldAlert size={24} strokeWidth={3} />}
-              title="If you are stuck"
-              text="Use boss prep and trinket notes together. One explains the fight habit; the other explains what build problem you are trying to solve."
+              title="When a route is stuck"
+              text="Use boss prep and trinket notes together. One explains the fight habit; the other narrows the build problem causing repeated deaths."
             />
             <InfoTile
               icon={<Map size={24} strokeWidth={3} />}
-              title="If you are mapping"
-              text="Record landmarks, danger, and a return path. Area names alone are rarely enough when you are trying to backtrack."
+              title="When mapping routes"
+              text="Record landmarks, danger, and a return path. Area names alone are rarely enough for clean backtracking."
             />
           </div>
         </section>
@@ -372,6 +401,34 @@ function InfoTile({
       </div>
       <h2 className="mt-16 text-heading-sm font-bold tracking-heading-sm">{title}</h2>
       <p className="mt-8 text-body leading-body tracking-body text-grave-gray">{text}</p>
+    </div>
+  );
+}
+
+function HeroPlayfulEdge() {
+  const stickers = [
+    { label: "ROUTE", className: "left-[8%] top-[26px] rotate-[-5deg] bg-candle-gold" },
+    { label: "BOSS", className: "left-[32%] top-[44px] rotate-[4deg] bg-blood-rose text-snow-white" },
+    { label: "MAP", className: "right-[30%] top-[24px] rotate-[7deg] bg-plasma-blue text-snow-white" },
+    { label: "GEAR", className: "right-[8%] top-[50px] rotate-[-4deg] bg-hollow-green text-snow-white" },
+  ];
+
+  return (
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[126px]" aria-hidden="true">
+      <div className="absolute inset-x-0 bottom-[-2px] h-[88px] bg-bone-white [clip-path:polygon(0_36%,7%_26%,14%_42%,21%_22%,29%_39%,36%_30%,44%_46%,53%_25%,61%_40%,70%_29%,78%_45%,87%_27%,100%_39%,100%_100%,0_100%)]" />
+      <div className="absolute inset-x-0 bottom-[20px] mx-auto hidden h-[82px] max-w-page md:block">
+        {stickers.map((sticker) => (
+          <span
+            className={`absolute rounded-xl border-2 border-crypt-ink px-14 py-8 text-caption font-bold tracking-caption shadow-[0_4px_0_rgba(60,47,47,0.55)] ${sticker.className}`}
+            key={sticker.label}
+          >
+            {sticker.label}
+          </span>
+        ))}
+        <span className="absolute left-[22%] top-[58px] size-12 rotate-45 rounded-[3px] border-2 border-crypt-ink bg-candle-gold" />
+        <span className="absolute right-[20%] top-[36px] size-16 rounded-full border-2 border-crypt-ink bg-bone-white" />
+        <span className="absolute right-[45%] top-[64px] h-10 w-28 rounded-full border-2 border-crypt-ink bg-parchment" />
+      </div>
     </div>
   );
 }

@@ -3,24 +3,27 @@ export const siteConfig = {
   gameName: "Mina the Hollower",
   defaultUrl: "https://minathehollower.base64pro.top",
   description:
-    "Mina the Hollower guides for routes, weapons, trinkets, bosses, platforms, saves, and first-run decisions.",
+    "Practical Mina the Hollower guides for early routes, weapons, trinkets, bosses, platforms, saves, play time, and map decisions.",
   author: "Hollow Guidebook editors",
   lastChecked: "2026-05-28",
 };
 
 export function getSiteUrl() {
-  return (process.env.NEXT_PUBLIC_SITE_URL || siteConfig.defaultUrl).replace(
+  const vercelUrl =
+    process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL;
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (vercelUrl ? `https://${vercelUrl}` : siteConfig.defaultUrl);
+
+  return siteUrl.replace(
     /\/$/,
     "",
   );
 }
 
-export type GuideNote = "Verified" | "Use with notes" | "Store page";
-
 export type Source = {
   label: string;
   url: string;
-  note: string;
 };
 
 export type GuideTable = {
@@ -42,16 +45,6 @@ export type GuideSection = {
   table?: GuideTable;
 };
 
-export type ImageSlot = {
-  label: string;
-  note: string;
-};
-
-export type Faq = {
-  question: string;
-  answer: string;
-};
-
 export type Guide = {
   slug: string;
   navTitle: string;
@@ -59,136 +52,181 @@ export type Guide = {
   eyebrow: string;
   description: string;
   searchIntent: string;
-  progress: GuideNote;
   updatedAt: string;
   quickAnswer: string;
-  verifiedOn: {
-    platform: string;
-    version: string;
-    imageCount: number;
-    note: string;
-  };
-  checked: string[];
   sections: GuideSection[];
-  imageSlots: ImageSlot[];
-  faqs: Faq[];
   related: string[];
   sources: string[];
-  updateLog: string[];
 };
 
 export const sources: Record<string, Source> = {
   steam: {
-    label: "Steam store",
+    label: "Steam page",
     url: "https://store.steampowered.com/app/1875580/Mina_the_Hollower/",
-    note: "Storefront details, PC availability, language support, system requirements, and Steam Deck information.",
   },
   official: {
-    label: "Yacht Club Games",
+    label: "Yacht Club Games game page",
     url: "https://www.yachtclubgames.com/games/mina-the-hollower/",
-    note: "Game description, trailer links, and platform messaging.",
+  },
+  yachtSpring: {
+    label: "Yacht Club Games launch details",
+    url: "https://www.yachtclubgames.com/blog/mina-the-hollower-launches-in-spring-2026/",
   },
   press: {
     label: "Yacht Club Games press kit",
     url: "https://www.yachtclubgames.com/press/mina-the-hollower/",
-    note: "Images, logos, and launch material.",
   },
   gamesearBeginner: {
     label: "Gamesear beginner guide",
     url: "https://www.gamesear.com/tips-and-guides/mina-the-hollower-beginners-guide-11-things-i-wish-i-knew-before-starting",
-    note: "External player-facing beginner coverage used for search intent comparison only.",
   },
   steamDeckHq: {
     label: "SteamDeckHQ review",
     url: "https://steamdeckhq.com/game-reviews/mina-the-hollower/",
-    note: "External performance-focused Steam Deck coverage.",
-  },
-  rpgSitePlatform: {
-    label: "RPG Site platform impressions",
-    url: "https://www.rpgsite.net/feature/20428-mina-the-hollower-switch-2-vs-steam-deck-ps5-pro-rog-ally-pc-hdr",
-    note: "External platform comparison coverage.",
   },
   rpgSiteDeck: {
-    label: "RPG Site Steam Deck progress",
+    label: "RPG Site Steam Deck news",
     url: "https://www.rpgsite.net/news/20347-mina-the-hollower-steam-deck-verified-valve-rating",
-    note: "External Steam Deck verification coverage.",
+  },
+  rpgSitePlatform: {
+    label: "RPG Site platform comparison",
+    url: "https://www.rpgsite.net/feature/20428-mina-the-hollower-switch-2-vs-steam-deck-ps5-pro-rog-ally-pc-hdr",
+  },
+  rpgSiteReview: {
+    label: "RPG Site review",
+    url: "https://www.rpgsite.net/review/20442-mina-the-hollower-review",
+  },
+  pcGamerReview: {
+    label: "PC Gamer review",
+    url: "https://www.pcgamer.com/games/action/mina-the-hollower-review/",
+  },
+  nintendoLifeRoundup: {
+    label: "Nintendo Life review roundup",
+    url: "https://www.nintendolife.com/news/2026/05/round-up-the-reviews-are-in-for-mina-the-hollower",
+  },
+  nintendoLifeSwitch2: {
+    label: "Nintendo Life Switch 2 review",
+    url: "https://www.nintendolife.com/reviews/nintendo-switch-2/mina-the-hollower-nintendo-switch-2-edition",
+  },
+  worthplayingReview: {
+    label: "Worthplaying review",
+    url: "https://www.worthplaying.com/article/2026/5/27/reviews/149966-pc-review-mina-the-hollower/",
+  },
+  metacritic: {
+    label: "Metacritic critic reviews",
+    url: "https://www.metacritic.com/game/mina-the-hollower/critic-reviews/",
   },
 };
 
 export const gameImages: GameMedia[] = [
   {
     src: "/images/mina/mina-screenshot-01.webp",
-    alt: "Mina the Hollower image showing Mina in a gothic action room",
+    alt: "Mina fighting in a gothic action room in Mina the Hollower",
     caption: "Mina the Hollower gameplay image.",
   },
   {
     src: "/images/mina/mina-screenshot-02.webp",
-    alt: "Mina the Hollower image with exploration and enemies",
+    alt: "Mina exploring a monster-filled room in Mina the Hollower",
     caption: "Mina the Hollower gameplay image.",
   },
   {
     src: "/images/mina/mina-screenshot-03.webp",
-    alt: "Mina the Hollower image showing a platforming room",
+    alt: "Mina crossing a platforming room in Mina the Hollower",
     caption: "Mina the Hollower gameplay image.",
   },
   {
     src: "/images/mina/mina-screenshot-04.webp",
-    alt: "Mina the Hollower image showing dungeon combat",
+    alt: "Dungeon combat scene from Mina the Hollower",
     caption: "Mina the Hollower gameplay image.",
   },
   {
     src: "/images/mina/mina-screenshot-05.webp",
-    alt: "Mina the Hollower image with character dialogue",
+    alt: "Character dialogue scene in Mina the Hollower",
     caption: "Mina the Hollower gameplay image.",
   },
   {
     src: "/images/mina/mina-screenshot-06.webp",
-    alt: "Mina the Hollower image showing a hazardous room",
+    alt: "Hazard-filled room from Mina the Hollower",
     caption: "Mina the Hollower gameplay image.",
   },
   {
     src: "/images/mina/mina-screenshot-07.webp",
-    alt: "Mina the Hollower image with a dark area encounter",
+    alt: "Dark encounter scene in Mina the Hollower",
     caption: "Mina the Hollower gameplay image.",
   },
   {
     src: "/images/mina/mina-screenshot-08.webp",
-    alt: "Mina the Hollower image showing side-scrolling action",
+    alt: "Side-view action sequence in Mina the Hollower",
     caption: "Mina the Hollower gameplay image.",
   },
   {
     src: "/images/mina/mina-screenshot-09.webp",
-    alt: "Mina the Hollower image showing a bright outdoor area",
+    alt: "Outdoor area from Mina the Hollower",
     caption: "Mina the Hollower gameplay image.",
   },
   {
     src: "/images/mina/mina-screenshot-10.webp",
-    alt: "Mina the Hollower image showing a boss-like encounter",
+    alt: "Large enemy encounter in Mina the Hollower",
     caption: "Mina the Hollower gameplay image.",
   },
   {
     src: "/images/mina/mina-screenshot-11.webp",
-    alt: "Mina the Hollower image with an interior scene",
+    alt: "Interior room scene from Mina the Hollower",
     caption: "Mina the Hollower gameplay image.",
   },
   {
     src: "/images/mina/mina-screenshot-12.webp",
-    alt: "Mina the Hollower image with a map-like game area",
+    alt: "Map-like area screen in Mina the Hollower",
     caption: "Mina the Hollower gameplay image.",
   },
   {
     src: "/images/mina/mina-screenshot-13.webp",
-    alt: "Mina the Hollower image showing combat and hazards",
+    alt: "Combat and hazard scene from Mina the Hollower",
     caption: "Mina the Hollower gameplay image.",
   },
   {
     src: "/images/mina/mina-screenshot-14.webp",
-    alt: "Mina the Hollower image showing a late area scene",
+    alt: "Late area gameplay scene from Mina the Hollower",
     caption: "Mina the Hollower gameplay image.",
   },
   {
     src: "/images/mina/mina-screenshot-15.webp",
-    alt: "Mina the Hollower image showing action gameplay",
+    alt: "Action gameplay scene from Mina the Hollower",
+    caption: "Mina the Hollower gameplay image.",
+  },
+  {
+    src: "/images/mina/mina-screenshot-16.webp",
+    alt: "Mina using a chain attack in a rainy graveyard scene",
+    caption: "Mina the Hollower gameplay image.",
+  },
+  {
+    src: "/images/mina/mina-screenshot-17.webp",
+    alt: "Mina crossing an icy platform route with enemies nearby",
+    caption: "Mina the Hollower gameplay image.",
+  },
+  {
+    src: "/images/mina/mina-screenshot-18.webp",
+    alt: "Mina fighting inside a decorated interior room",
+    caption: "Mina the Hollower gameplay image.",
+  },
+  {
+    src: "/images/mina/mina-screenshot-19.webp",
+    alt: "Mina standing beside a large monster encounter",
+    caption: "Mina the Hollower gameplay image.",
+  },
+  {
+    src: "/images/mina/mina-screenshot-20.webp",
+    alt: "Mina moving through a dark outdoor area with enemies",
+    caption: "Mina the Hollower gameplay image.",
+  },
+  {
+    src: "/images/mina/mina-screenshot-21.webp",
+    alt: "Mina battling in a colorful action room",
+    caption: "Mina the Hollower gameplay image.",
+  },
+  {
+    src: "/images/mina/mina-screenshot-22.webp",
+    alt: "Mina the Hollower promotional gameplay image",
     caption: "Mina the Hollower gameplay image.",
   },
 ];
@@ -202,12 +240,24 @@ export function getGameImage(seed: string, offset = 0) {
   return gameImages[(hash + offset) % total];
 }
 
-const baseTest = {
-  platform: "PC / Steam",
-  version: "Launch source notes",
-  imageCount: 0,
-  note: "Gameplay images are shown for visual context; player-specific records can be added to exact steps.",
+const guideImageStarts: Record<string, number> = {
+  "beginner-guide": 0,
+  weapons: 6,
+  trinkets: 12,
+  bosses: 18,
+  "steam-deck-settings": 2,
+  "save-system": 8,
+  "how-long-to-beat": 14,
+  "release-date-platforms": 20,
+  "review-roundup": 4,
+  "switch-vs-pc": 10,
+  map: 16,
 };
+
+export function getGuideImage(slug: string, slot: number) {
+  const start = guideImageStarts[slug] ?? 0;
+  return gameImages[(start + slot) % gameImages.length];
+}
 
 export const guides: Guide[] = [
   {
@@ -216,287 +266,269 @@ export const guides: Guide[] = [
     title: "Mina the Hollower Beginner Guide",
     eyebrow: "First hour route",
     description:
-      "A first-session Mina the Hollower guide focused on safe habits, early upgrades, and avoiding costly deaths.",
-    searchIntent: "beginner guide, things to do first",
-    progress: "Use with notes",
+      "A Mina the Hollower beginner guide for early combat habits, safe spending, first-hour routing, and avoiding costly opening mistakes.",
+    searchIntent:
+      "First-session routing, safe early upgrades, resource spending, and combat habits.",
     updatedAt: siteConfig.lastChecked,
     quickAnswer:
-      "Start slowly, learn the burrow move before chasing damage, and spend currency before risky routes. The safest first hour is about reading enemy arcs, checking each weapon once, and returning to safe points whenever you have enough resources for an upgrade.",
-    verifiedOn: baseTest,
-    checked: [
-      "Opening route structure and early decision points are being logged on PC / Steam.",
-      "Weapon feel, upgrade timing, and death penalty notes are marked Use with notes until images are attached.",
-      "Platform and store details are separated from hands-on notes.",
-    ],
+      "The safest early approach is to treat the opening hour as a combat tutorial, not a race. Learn how long Mina takes to burrow, spend resources before dangerous branches, try each weapon style before committing upgrades, and avoid pushing into a new route with empty healing or a large currency stack.",
     sections: [
       {
-        heading: "First hour checklist",
-        checklist: [
-          "Open the controls screen before the first combat room and confirm burrow, jump, attack, and sidearm inputs.",
-          "Fight the first enemy group without spending sidearm resources so you can learn safe attack spacing.",
-          "Return to a safe point before exploring an unknown branch with a large currency stack.",
-          "Record the first upgrade cost you see, then decide whether to bank progress or push forward.",
-          "Take one image after each new mechanic so the guide can be updated with exact UI labels.",
-        ],
-      },
-      {
-        heading: "Early choices that matter",
+        heading: "Detailed Breakdown",
         body: [
-          "The early game rewards patience more than speed. Most mistakes come from treating rooms like a pure action platformer when the safer play is to bait one enemy at a time, burrow away from bad angles, and reset the room before your health is low.",
-          "If a path asks you to cross hazards while carrying resources, treat that path as a scouting trip. The guide should show the route, the risk, and the closest return point instead of telling players to push forward blindly.",
+          "Mina the Hollower looks like a compact Game Boy Color throwback, but its opening is built around pressure. Rooms often combine enemy arcs, pits, projectiles, and awkward exits, so early progress depends less on reflex speed than on learning when to stop attacking. The burrow move is the central habit: it can dodge many threats, cross routes, and reset spacing, but it has timing limits and should not be treated as a panic button.",
+          "The first hour should be spent building a simple loop. Enter a room, identify the enemy that controls space, remove it without spending rare resources, then check for suspicious walls, side paths, or pickups before moving on. That rhythm matters because Mina rewards curiosity with trinkets, shortcuts, currency, and sidearm options, while careless forward momentum can create a long recovery walk after a death.",
+          "Resource spending is the other early discipline. A player carrying enough currency for an upgrade gains little by gambling on an unknown branch before visiting town or a safe point. Buying a key, improving a weapon, or stocking a useful item can make the next route easier; hoarding resources only increases the frustration of losing time to a room that has not been learned yet.",
         ],
         table: {
-          caption: "Beginner decisions to verify during PC checking",
-          columns: ["Decision", "Safe default", "Why it helps", "Guide note"],
+          caption: "First hour decision table",
+          columns: ["Early problem", "Best approach", "Why it matters", "Trade-off"],
           rows: [
             [
-              "First weapon comfort",
-              "Use the weapon with the clearest reach",
-              "Reach gives new players more room to read enemy movement.",
-              "Use with notes",
+              "First weapon choice",
+              "Use the style with the clearest range and recovery.",
+              "Readable spacing prevents damage while enemy patterns are still unfamiliar.",
+              "Slower clears are acceptable while learning room layouts.",
             ],
             [
-              "Currency spending",
-              "Spend before long unknown routes",
-              "It reduces frustration when a first-time route goes badly.",
-              "Use with notes",
+              "New side path",
+              "Scout it after spending currency or finding a nearby safe point.",
+              "Exploration is valuable, but blind routes are where early deaths usually snowball.",
+              "Some rewards may wait until the route back is safer.",
             ],
             [
-              "Sidearm use",
-              "Save for shielded or awkward enemies",
-              "Early rooms teach spacing better when sidearms are not wasted.",
-              "Use with notes",
+              "Healing window",
+              "Create distance first, then heal during a predictable enemy pause.",
+              "Healing is risky when used as a panic reaction during pressure.",
+              "Over-defensive play can extend fights and drain focus.",
+            ],
+            [
+              "Key purchase",
+              "Buy keys when a locked route sits near the current path.",
+              "Locked rooms often justify their cost through loot or route value.",
+              "Buying too early can delay weapon upgrades.",
             ],
           ],
         },
       },
       {
-        heading: "Common early mistakes",
+        heading: "Why It Matters For Players",
+        body: [
+          "The opening hour sets the tone for the rest of the game because Mina uses difficulty as instruction. A room that feels unfair usually asks for a different rhythm: burrow earlier, attack less, approach from another angle, or return after a gear change. That makes early deaths useful only if the player reads what caused them instead of brute-forcing the same route.",
+          "Weapon experimentation also matters early because upgrades and muscle memory compound. A weapon that feels safe against basic enemies may struggle against airborne pressure or tight arenas, while a high-damage option may punish missed swings. Trying several styles before investing heavily keeps the first build flexible enough for bosses, exploration, and puzzle rooms.",
+        ],
         checklist: [
-          "Do not chase a damaged enemy through hazards unless the route back is already safe.",
-          "Do not swap multiple build pieces at once; change one item, then check one room.",
-          "Do not assume a room is solved after one clear; note whether the route is safe with low health.",
+          "Clear a room once slowly before trying to clear it quickly.",
+          "Change one piece of gear at a time so the effect is easy to feel.",
+          "Spend currency before entering a branch with unknown hazards.",
+          "Use sidearms for awkward targets, not for every basic enemy.",
+          "Return to older rooms after a new movement or trinket option changes the route.",
+        ],
+      },
+      {
+        heading: "Important Details Players May Miss",
+        body: [
+          "Beginner frustration often comes from treating burrow as total safety. Review coverage and store material both frame burrowing as a core movement and defense tool, but not as immunity to every threat. Some attacks, hazard layouts, or timing windows can still punish a late burrow, which makes pre-emptive positioning stronger than last-second reactions.",
+          "Healing deserves the same caution. Early player coverage highlights that healing can be slow and tied to offensive momentum, which changes boss attempts dramatically. A full set of healing resources does not help if a boss leaves no clean window to use them. Creating that window through spacing, sidearm control, or a safe arena corner is often more important than entering with maximum healing.",
+          "Trinkets can reshape survival more than raw damage. A revive-style or mistake-forgiving effect is often more valuable during a first playthrough than a damage boost, because it turns a failed boss pattern into extra learning time. Damage matters later, but the first real power spike is usually the setup that lets more attempts reach the final phase.",
+        ],
+      },
+      {
+        heading: "Current Unknowns And Caveats",
+        body: [
+          "Exact route order and boss names should be handled carefully because Mina is built around discovery. Some public coverage discusses early regions, sidequests, and item examples, but a beginner page should avoid spoiling late routes before a player needs that information.",
+          "Patch timing may also affect small details such as upgrade costs, item placement, controller prompts, or balance values. The reliable beginner advice is therefore about decision-making: reduce risk before scouting, learn burrow timing, and choose upgrades that solve the problem currently blocking progress.",
+        ],
+      },
+      {
+        heading: "Editorial Takeaway",
+        body: [
+          "Mina the Hollower is most forgiving when played like a dense action-adventure rather than a straight-line platformer. The early game wants patient observation, deliberate spending, and gear experiments that answer specific problems. A strong first run is not the fastest one; it is the run that builds habits sturdy enough to survive the first serious boss wall.",
         ],
       },
     ],
-    imageSlots: [
-      {
-        label: "Controls screen",
-        note: "Record the default PC / Steam bindings before changing anything.",
-      },
-      {
-        label: "First upgrade choice",
-        note: "Record the first upgrade menu with visible cost and description.",
-      },
-    ],
-    faqs: [
-      {
-        question: "What should I do first in Mina the Hollower?",
-        answer:
-          "Learn the controls, check basic enemy spacing, and spend resources before taking risky unexplored routes.",
-      },
-      {
-        question: "Is this guide based on finished checking?",
-        answer:
-          "No. The first version is marked Use with notes until original PC / Steam images and route notes are added.",
-      },
-    ],
     related: ["weapons", "save-system", "trinkets", "map"],
-    sources: ["steam", "official", "gamesearBeginner"],
-    updateLog: [
-      "2026-05-28: Created launch structure with Use with notes labels and image notes.",
-    ],
+    sources: ["steam", "official", "gamesearBeginner", "rpgSiteReview"],
   },
   {
     slug: "weapons",
     navTitle: "Weapons",
     title: "Mina the Hollower Weapons Guide",
-    eyebrow: "Starting weapon notes",
+    eyebrow: "Combat choices",
     description:
-      "Weapon comparison notes for Mina the Hollower, focused on early comfort, reach, timing, and player type.",
-    searchIntent: "best starting weapon, weapons guide",
-    progress: "Use with notes",
+      "A practical Mina the Hollower weapons guide for choosing early gear by range, recovery, boss comfort, sidearm fit, and upgrade value.",
+    searchIntent:
+      "Starting weapon decisions, upgrade priorities, sidearm fit, and combat style trade-offs.",
     updatedAt: siteConfig.lastChecked,
     quickAnswer:
-      "Pick the weapon that lets you read rooms safely, not the one that looks strongest on paper. For the first run, prioritize reach, recovery timing, and how easy it is to hit small enemies without standing inside danger.",
-    verifiedOn: baseTest,
-    checked: [
-      "Weapon names and exact move details need player confirmation before being marked Verified.",
-      "The first version compares player needs rather than claiming a final best weapon.",
-      "Images will record selection UI, attack range, and upgrade wording.",
-    ],
+      "The best early weapon is the one that makes enemy spacing easiest to read. Nightstar-style reach is the safest baseline, while faster or heavier options become stronger once room layouts, burrow timing, and boss punish windows are familiar. Upgrade for consistency before chasing raw damage.",
     sections: [
       {
-        heading: "How to choose a starting weapon",
+        heading: "Detailed Breakdown",
         body: [
-          "A good early weapon should help you learn the room. If it keeps you at a readable distance, has a clear hitbox, and does not leave you stuck after a missed swing, it is probably the right first choice even if another weapon deals more damage later.",
+          "Steam describes Mina's trusty whip, Nightstar, alongside an arsenal of weapons with different move sets. That wording matters because weapon choice is not just a damage comparison. Each weapon changes how close Mina must stand, how long a missed attack leaves her exposed, and how naturally sidearms fit between normal hits.",
+          "A range-focused weapon is usually the safest opening choice because it creates time to read enemy arcs. Close-range or faster styles can clear rooms faster, but they demand better burrow timing and stronger knowledge of enemy recovery. Heavy options can feel excellent against predictable targets, then become awkward when a room fills with small enemies, projectiles, or narrow platforms.",
+          "Upgrades should be judged by how they change the player's next route. PC Gamer's review notes that weapon enhancement leans toward expanded abilities rather than simple damage stacking, which makes early investment more interesting. A utility upgrade that improves safety, control, or repeatable hits may outperform a number increase if it removes the mistake that keeps ending attempts.",
         ],
         table: {
-          caption: "Weapon choice framework",
-          columns: ["Player need", "Choose for", "Avoid if", "Guide note"],
+          caption: "Weapon decision table",
+          columns: ["Combat need", "Best fit", "Why it works", "Risk"],
           rows: [
             [
-              "Safer first run",
-              "Reach and simple timing",
-              "You want the fastest room clears",
-              "Use with notes",
+              "Learning rooms",
+              "Reach and clean recovery",
+              "Keeps Mina outside enemy contact while patterns are new.",
+              "Room clears can be slower than aggressive builds.",
             ],
             [
-              "Aggressive play",
-              "Fast recovery and close pressure",
-              "You are still learning enemy arcs",
-              "Use with notes",
+              "Fast pressure",
+              "Quick close-range attacks",
+              "Punishes enemies during short openings and keeps momentum high.",
+              "Bad spacing turns missed hits into immediate damage.",
             ],
             [
-              "Boss practice",
-              "Consistent single-target hits",
-              "The weapon whiffs on small targets",
-              "Use with notes",
+              "Boss attempts",
+              "Consistent single-target timing",
+              "Reliable hits matter more than burst damage during pattern learning.",
+              "May underperform in rooms with many small threats.",
+            ],
+            [
+              "Exploration",
+              "Weapon plus sidearm coverage",
+              "Sidearms can solve angles the main weapon handles poorly.",
+              "Energy use can become wasteful without restraint.",
             ],
           ],
         },
       },
       {
-        heading: "What to image",
-        checklist: [
-          "Selection screen with weapon names visible.",
-          "One neutral attack image against a standard enemy.",
-          "One missed attack recovery image to show risk.",
-          "Upgrade menu wording before and after the first purchase.",
-        ],
-      },
-      {
-        heading: "Early recommendation logic",
+        heading: "Why It Matters For Players",
         body: [
-          "The guide should not declare a permanent best weapon on day one. The useful version is a decision table that lets players match a weapon to their goal: safer exploration, boss practice, or faster room clears.",
+          "Weapon commitment shapes progression speed because it affects the number of mistakes a player can survive. A safer weapon can turn a new biome into a steady scouting route, while a more aggressive weapon can make known routes faster once enemy placement is memorized. The correct choice changes as the player moves from discovery to farming, from farming to boss prep, and from boss prep to repeat clears.",
+          "The most common early mistake is swapping weapons because one bad room made the current choice feel weak. Some rooms punish the weapon; others punish the approach. Before abandoning a style, it is worth changing the entry angle, using a sidearm on the specific enemy causing problems, or deciding whether burrow timing is the real failure point.",
+        ],
+        checklist: [
+          "Pick reach when the route is unknown.",
+          "Pick speed when enemy patterns are already familiar.",
+          "Save sidearm energy for targets the main weapon cannot safely reach.",
+          "Upgrade the weapon that improves the next boss attempt, not the one with the flashiest animation.",
+          "Revisit older rooms after a weapon upgrade because utility changes can open safer routing.",
         ],
       },
-    ],
-    imageSlots: [
       {
-        label: "Weapon select",
-        note: "Add the first PC / Steam weapon selection image here.",
+        heading: "Important Details Players May Miss",
+        body: [
+          "Sidearms are not backup weapons in the usual sense. Steam frames them as unusual tools that give Mina an advantage in combat, and review coverage describes them as options with their own resource needs. That makes them closer to problem-solvers: a projectile for awkward spacing, a defensive tool for a bad pattern, or a way to pressure an enemy without standing in the dangerous part of the room.",
+          "The weapon that feels strongest in a normal room may not be strongest in a boss fight. Boss arenas tend to reward repeatable punish timing and safe recovery. A weapon that lands fewer but cleaner hits can outperform a faster option if it keeps Mina alive long enough to learn later phases.",
+          "Upgrade anxiety is understandable, but Mina appears designed around experimentation. The presence of multiple weapon styles, trinkets, sidearms, and modifiers means the combat model expects players to adapt. Early spending should still be deliberate, but paralysis over finding a perfect weapon can slow learning more than a modestly inefficient upgrade.",
+        ],
       },
       {
-        label: "Attack range check",
-        note: "Show the same enemy distance for each checked weapon.",
-      },
-    ],
-    faqs: [
-      {
-        question: "What is the best starting weapon?",
-        answer:
-          "The safest recommendation is the weapon with the clearest reach and recovery timing until final PC checking is documented.",
+        heading: "Current Unknowns And Caveats",
+        body: [
+          "Exact damage values, upgrade costs, and late-game weapon breakpoints can change with balance updates or differ by version. This page should avoid ranking the entire arsenal by one universal tier list until repeatable numbers and route situations are available.",
+          "The more reliable early recommendation is situational: choose range for unknown rooms, speed for familiar routes, utility for awkward enemy angles, and consistency for bosses. That advice remains useful even when individual weapon values shift.",
+        ],
       },
       {
-        question: "Will this page rank weapons later?",
-        answer:
-          "Yes, but only after each weapon is checked in the same early rooms and the images are added.",
+        heading: "Editorial Takeaway",
+        body: [
+          "Mina's weapon system works because it asks for a plan instead of a favorite button. The best weapon is rarely permanent; it is the tool that makes the current route cleaner, the current boss safer, or the current build less brittle. Early players should value control first, then specialize once the world starts repeating patterns back at them.",
+        ],
       },
     ],
     related: ["beginner-guide", "bosses", "trinkets", "save-system"],
-    sources: ["steam", "official"],
-    updateLog: [
-      "2026-05-28: Added a player-first weapon comparison framework without final ranking claims.",
-    ],
+    sources: ["steam", "pcGamerReview", "gamesearBeginner"],
   },
   {
     slug: "trinkets",
     navTitle: "Trinkets",
     title: "Mina the Hollower Trinkets Guide",
-    eyebrow: "Build pieces",
+    eyebrow: "Build planning",
     description:
-      "A verified-first trinket tracker for effects, locations, stage notes, images, and guide progress.",
-    searchIntent: "trinket locations, best trinkets",
-    progress: "Use with notes",
+      "A Mina the Hollower trinkets guide focused on build roles, early priorities, survivability, route value, and how to avoid wasting slots.",
+    searchIntent:
+      "Trinket effects, best early trinkets, location decisions, and build planning.",
     updatedAt: siteConfig.lastChecked,
     quickAnswer:
-      "Use trinkets to solve the current problem: safer movement, steadier damage, or better resource control. This page starts as a verified tracker, so unknown locations stay marked Use with notes until an original image and route note are attached.",
-    verifiedOn: baseTest,
-    checked: [
-      "No trinket entry is promoted to a standalone page until its effect and route are documented.",
-      "Table rows can be updated one by one as images are recorded.",
-      "Early recommendations avoid fixed counts until the guide tracker is filled.",
-    ],
+      "Trinkets should be chosen to solve the current friction point: survival, movement, resource pressure, boss consistency, or exploration. With Yacht Club describing 60 Trinkets, the best early setup is not a universal damage stack. It is the combination that prevents the mistake causing the next death.",
     sections: [
       {
-        heading: "Launch tracker",
+        heading: "Detailed Breakdown",
         body: [
-          "The point of this page is fast lookup, not a wall of guesses. Each trinket row needs an effect, use case, route note, and image state before it can be treated as a reliable recommendation.",
+          "Yacht Club has described Mina the Hollower as having 60 Trinkets, which makes the system too large for a simple best-item list. Trinkets are build rules: they can alter survivability, movement, resource economy, risk tolerance, and combat output. The correct question is not which trinket is strongest, but which slot solves the current route.",
+          "Early players usually benefit most from mistake reduction. A trinket that improves survivability, extends a healing window, supports movement, or keeps resources stable can produce more real progress than a pure damage option. Damage becomes easier to value once enemy routes and boss patterns are familiar; before that, the strongest build is often the one that reaches later attempts more often.",
+          "Worthplaying's review describes trinkets as central to defining how Mina plays, including effects that alter damage risk, plasma management, mobility, and even how damage is taken. That kind of range means players should think in build roles rather than individual collectibles. A defensive slot, a movement slot, and a damage slot often teach more than three overlapping damage boosts.",
         ],
         table: {
-          caption: "Trinket tracker fields",
-          columns: ["Field", "What it should tell players", "Example state", "Guide note"],
+          caption: "Trinket priority table",
+          columns: ["Build problem", "Trinket role", "Why it matters", "Trade-off"],
           rows: [
             [
-              "Effect",
-              "The exact benefit or tradeoff shown in-game",
-              "Needs player check",
-              "Use with notes",
+              "Repeated boss deaths",
+              "Survival or recovery",
+              "Longer attempts create more pattern learning per run.",
+              "Damage output may drop during the learning phase.",
             ],
             [
-              "Location",
-              "The nearest room, landmark, or route step",
-              "Needs player check",
-              "Use with notes",
+              "Hazard-heavy routes",
+              "Movement or positioning",
+              "Safer traversal reduces chip damage before important fights.",
+              "Combat benefits may be indirect.",
             ],
             [
-              "Best use",
-              "Movement, boss safety, resource control, or damage",
-              "Needs play check",
-              "Use with notes",
+              "Low resource control",
+              "Economy or plasma support",
+              "Stable resources make sidearms and healing more reliable.",
+              "Pure offense may feel weaker in short fights.",
             ],
             [
-              "Image",
-              "Inventory or pickup image with readable text",
-              "Needs player image",
-              "Use with notes",
+              "Known farm route",
+              "Damage or speed",
+              "Faster clears matter once enemy placement is familiar.",
+              "Aggressive setups punish mistakes harder.",
             ],
           ],
         },
       },
       {
-        heading: "How recommendations will work",
-        checklist: [
-          "A trinket must be checked in at least one normal room before being recommended for exploration.",
-          "A trinket must be checked against a boss pattern before being recommended for boss fights.",
-          "A location note must include a landmark, not just an area name.",
-        ],
-      },
-      {
-        heading: "Best early trinket criteria",
+        heading: "Why It Matters For Players",
         body: [
-          "The strongest early trinket is not always the highest damage item. For a first run, the most helpful trinket usually reduces mistakes: longer movement safety, easier recovery, clearer resource use, or a bonus that works even when the player is still learning.",
+          "Trinkets determine how forgiving a route feels. A player stuck on a boss may not need more attack power; the real issue may be reaching the second half of the fight with enough health to learn it. A player stuck in exploration may need movement consistency or resource stability because entering a boss with depleted supplies makes the fight harder before it begins.",
+          "This is where Mina separates build planning from collectible chasing. The existence of many trinkets invites experimentation, but slots still have opportunity cost. Equipping a survival tool may delay a damage build, while equipping a damage tool may turn small mistakes into route-ending failures. The correct setup should match the stage of learning, not just the final goal.",
+        ],
+        checklist: [
+          "Use survival effects while learning a new boss.",
+          "Use movement effects when a route drains health before the main fight.",
+          "Use resource effects if sidearm use or healing keeps running dry.",
+          "Use damage effects after the route is known and the remaining problem is speed.",
+          "Avoid changing several trinkets at once unless the whole build concept is changing.",
         ],
       },
-    ],
-    imageSlots: [
       {
-        label: "First trinket pickup",
-        note: "Record the pickup prompt and nearby route landmark.",
+        heading: "Important Details Players May Miss",
+        body: [
+          "Gamesear's beginner coverage calls out Proto Spark as a particularly valuable survival trinket because a revive effect changes boss practice. That type of effect is powerful not just because it saves a death, but because it keeps a run inside the learning window. More attempts reach the dangerous phase, which means the player learns the part that actually matters.",
+          "Trinkets also interact with psychology. A high-risk damage piece can encourage sloppy aggression because the reward feels immediate. A defensive or movement piece may look less exciting, but it often makes exploration cleaner by preserving health before the difficult room arrives. Mina's dense world means damage taken five rooms earlier can decide whether a boss attempt is useful.",
+          "Location matters as much as effect. A strong trinket buried behind an expensive key, awkward route, or late sidequest is not an early recommendation. The best guide entry should explain when the trinket becomes practical, what problem it solves at that moment, and what slot it replaces.",
+        ],
       },
       {
-        label: "Inventory effect text",
-        note: "Record the readable effect text before writing the row.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Are the trinket locations verified?",
-        answer:
-          "Not yet. Rows stay marked Use with notes until original pickup images and route notes are added.",
+        heading: "Current Unknowns And Caveats",
+        body: [
+          "A final trinket ranking needs exact locations, slot limits, effect wording, and route timing. Public sources confirm a large trinket pool, but they do not make every pickup equally relevant to a first playthrough.",
+          "Balance updates may also change the value of extreme setups, especially high-risk damage builds or effects that soften death. The stable advice is to treat trinkets as answers to specific problems: survival for learning, movement for routing, economy for resource strain, and damage for known encounters.",
+        ],
       },
       {
-        question: "Should I build for damage first?",
-        answer:
-          "For a first run, survival and movement safety are usually easier to benefit from than pure damage.",
+        heading: "Editorial Takeaway",
+        body: [
+          "The trinket system is where Mina's old-school adventure structure becomes a build game. The smartest early players will not chase a fixed best list; they will identify the current failure point, equip around that failure, and swap again when the world starts asking a different question.",
+        ],
       },
     ],
     related: ["weapons", "bosses", "beginner-guide", "map"],
-    sources: ["steam", "official"],
-    updateLog: [
-      "2026-05-28: Created tracker format and verification rules visible to players through guide notes.",
-    ],
+    sources: ["yachtSpring", "worthplayingReview", "gamesearBeginner", "steam"],
   },
   {
     slug: "bosses",
@@ -504,257 +536,267 @@ export const guides: Guide[] = [
     title: "Mina the Hollower Boss Order and Fight Notes",
     eyebrow: "Fight prep",
     description:
-      "Boss order notes and fight preparation for Mina the Hollower, limited to encounters that have route or image evidence.",
-    searchIntent: "boss order, boss strategy",
-    progress: "Use with notes",
+      "Mina the Hollower boss prep notes for resources, burrow timing, trinket choices, safe weapons, and learning fights cleanly.",
+    searchIntent:
+      "Boss order, boss preparation, survival habits, and fight strategy.",
     updatedAt: siteConfig.lastChecked,
     quickAnswer:
-      "Treat boss pages as fight prep, not spoiler dumping. The useful first version lists only encounters that have been reached or publicly documented, then explains the safest weapon habits, resource checks, and image evidence still needed.",
-    verifiedOn: baseTest,
-    checked: [
-      "Encounter names and order need PC / Steam route record before final wording.",
-      "The first page avoids claiming a final boss count.",
-      "Boss cards remain summary rows until a fight image and strategy note exist.",
-    ],
+      "Boss fights should be approached as pattern learning first and damage races second. Enter with resources spent wisely, a trinket setup that answers the fight's main threat, and a weapon that can punish safely. Yacht Club has discussed more than 25 bosses and mini-bosses, so preparation habits matter more than memorizing a count.",
     sections: [
       {
-        heading: "Fight prep checklist",
-        checklist: [
-          "Return to a safe point before entering a suspicious arena door.",
-          "Check sidearm resources before committing to a second attempt.",
-          "Record whether the fight has adds, hazards, phase changes, or projectile walls.",
-          "Record one image of the arena and one image of the victory or reward screen.",
+        heading: "Detailed Breakdown",
+        body: [
+          "Mina the Hollower's bosses sit inside a world that already pressures movement, hazards, and resource discipline. That means a boss attempt starts before the arena door. Arriving with low health, the wrong trinkets, or no sidearm energy turns a learnable fight into noise, because the player spends the attempt surviving the setup rather than reading the pattern.",
+          "The core fight rhythm is simple but demanding: observe the attack shape, burrow or move before the danger reaches Mina, punish once, then reset. Greedy double hits are where many attempts collapse. A boss with a large punish window can tempt aggressive play, but Mina's combat is harsh when recovery timing and incoming attacks overlap.",
+          "Yacht Club has publicly described more than 25 bosses and mini-bosses, which signals a long runway of encounters. A guide should therefore teach repeatable fight habits: what to check before entering, how to identify the main threat, when to change trinkets, and when a weapon is failing because of range rather than player execution.",
         ],
-      },
-      {
-        heading: "Boss note template",
         table: {
-          caption: "Boss guide fields",
-          columns: ["Field", "Player value", "Current state", "Guide note"],
+          caption: "Boss prep decision table",
+          columns: ["Fight problem", "Adjustment", "Why it matters", "Risk"],
           rows: [
             [
-              "Encounter name",
-              "Lets players search and match the fight",
-              "Needs fight note",
-              "Use with notes",
+              "Taking damage before the fight",
+              "Improve route safety before another attempt.",
+              "A weak arena entry makes later phases harder to learn.",
+              "Extra preparation slows immediate rematches.",
             ],
             [
-              "Safe opening",
-              "The first action that avoids early damage",
-              "Needs fight note",
-              "Use with notes",
+              "Cannot find healing time",
+              "Use range, sidearms, or a defensive trinket to create space.",
+              "Healing only matters if the fight provides a safe window.",
+              "Lower damage can extend the fight.",
             ],
             [
-              "Recommended setup",
-              "Weapon, trinket, and sidearm notes",
-              "Needs fight note",
-              "Use with notes",
+              "Whiffing punish windows",
+              "Swap to a weapon with clearer recovery.",
+              "Consistent hits beat theoretical burst during pattern learning.",
+              "A safer weapon may feel less exciting.",
             ],
             [
-              "Common failure",
-              "The mistake that causes repeat deaths",
-              "Needs fight note",
-              "Use with notes",
+              "Late-phase panic",
+              "Stop chasing damage and count the repeat pattern.",
+              "The last phase often punishes greed more than caution.",
+              "Longer attempts demand better focus.",
             ],
           ],
         },
       },
       {
-        heading: "Spoiler policy",
+        heading: "Why It Matters For Players",
         body: [
-          "Fight pages should help players who are stuck without exposing late-game surprises in headings. Put spoiler-heavy names deeper in the page, and keep the first screen focused on preparation and navigation.",
+          "Boss preparation matters because Mina's death loop can blur the actual lesson. If a player dies while under-upgraded, low on resources, and using a trinket that does not address the fight, the takeaway is unclear. The fight might be hard, the route might be draining too much health, or the build might be solving the wrong problem.",
+          "Separating those problems makes progress faster. If damage is consistent but survival fails late, defensive trinkets are the answer. If attacks are readable but punish windows are missed, weapon timing is the issue. If the arena is fine but the run to the arena is expensive, map and save habits need attention before the boss strategy does.",
+        ],
+        checklist: [
+          "Spend or bank resources before a suspicious arena.",
+          "Enter with a trinket setup that addresses the fight's clearest threat.",
+          "Use the first attempt to identify attack shapes instead of forcing damage.",
+          "Change weapon only when the punish window is the problem.",
+          "Pause after a death and name the cause before starting the next attempt.",
+        ],
+      },
+      {
+        heading: "Important Details Players May Miss",
+        body: [
+          "Burrowing avoids many threats, but RPG Site's review notes that it does not bypass every attack, hazard, or gap. That distinction is crucial in boss arenas. A late burrow may still fail if the attack checks position differently, lasts longer than expected, or covers the exit point.",
+          "Sidearms should be reserved for solving fight geometry. If a boss spends time outside safe melee range, a projectile or defensive sidearm can keep pressure without forcing bad positioning. If the boss is always reachable, sidearm energy may be better saved for emergencies or route recovery.",
+          "Some players will be tempted to grind as soon as a boss blocks progress. Grinding can help, but it should follow diagnosis. Extra stats cannot fix a habit of attacking into unsafe recovery, and more damage does not teach the final pattern if the setup never reaches it cleanly.",
+        ],
+      },
+      {
+        heading: "Current Unknowns And Caveats",
+        body: [
+          "A precise boss order should avoid spoiling late routes and should not be treated as stable until the final release route is documented across platforms. Public sources confirm a large boss roster, but they do not replace player-facing route context.",
+          "Names, phase details, and optional encounter timing can also be patch-sensitive. The safest page structure is to keep fight advice practical: recommended preparation, main threat, common death cause, and a spoiler-light route note.",
+        ],
+      },
+      {
+        heading: "Editorial Takeaway",
+        body: [
+          "Mina's bosses work best when treated as exams on the systems learned in the surrounding route. The player who arrives with a clean build, a clear plan, and a willingness to survive one more pattern before attacking will progress faster than the player trying to overpower every arena on instinct.",
         ],
       },
     ],
-    imageSlots: [
-      {
-        label: "First arena",
-        note: "Record the first boss arena entrance or opening pattern.",
-      },
-      {
-        label: "Recommended setup",
-        note: "Record inventory before the fight once a stable setup is found.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Does this page list every fight?",
-        answer:
-          "No. It lists only fights with route evidence or public source context, then marks the rest as Use with notes.",
-      },
-      {
-        question: "Will boss pages get separate URLs?",
-        answer:
-          "Only after each encounter has a image, route note, and strategy that is useful on its own.",
-      },
-    ],
     related: ["weapons", "trinkets", "save-system", "map"],
-    sources: ["steam", "official"],
-    updateLog: [
-      "2026-05-28: Added spoiler-safe boss guide structure without final encounter claims.",
-    ],
+    sources: ["yachtSpring", "rpgSiteReview", "pcGamerReview", "steam"],
   },
   {
     slug: "steam-deck-settings",
     navTitle: "Steam Deck",
-    title: "Mina the Hollower Steam Deck Settings",
-    eyebrow: "Handheld checking",
+    title: "Best Mina the Hollower Steam Deck Settings",
+    eyebrow: "Handheld play",
     description:
-      "Steam Deck settings notes for Mina the Hollower, focused on frame rate, battery, readability, and control comfort.",
-    searchIntent: "Steam Deck settings",
-    progress: "Store page",
+      "Best Mina the Hollower Steam Deck settings for frame rate, battery life, controller setup, readability, and handheld play.",
+    searchIntent:
+      "Steam Deck settings, battery life, frame rate, controller setup, and handheld comfort.",
     updatedAt: siteConfig.lastChecked,
     quickAnswer:
-      "Use this page as a settings log, not a final benchmark. Public coverage indicates handheld interest is strong, but frame rate, battery, text readability, and controller images still need to be recorded before exact settings are marked Verified.",
-    verifiedOn: {
-      ...baseTest,
-      platform: "Steam Deck reference-based notes",
-      note: "Public sources are listed; original handheld images are not attached yet.",
-    },
-    checked: [
-      "Steam Deck progress is sourced from public pages until a handheld check is available.",
-      "Exact frame rate and battery values are not invented.",
-      "The settings table is ready for measured values once recorded.",
-    ],
+      "Mina the Hollower is a strong Steam Deck fit. RPG Site reports a Steam Deck Verified rating, while SteamDeckHQ reports stable high-refresh play with very low power draw. Start with the default profile, cap lower for battery if needed, and check the active controller if an external pad behaves oddly.",
     sections: [
       {
-        heading: "Settings table to fill during checking",
+        heading: "Detailed Breakdown",
+        body: [
+          "Mina is well suited to handheld play because its pixel art, short room structure, and route-based exploration fit portable sessions. Steam lists SteamOS and Linux support, and RPG Site reports that Valve marked the game Steam Deck Verified ahead of launch. That matters because Mina depends on precise movement; input friction would be more damaging here than in a slower RPG.",
+          "SteamDeckHQ's review reports stable 90 fps behavior and roughly 7W battery draw, suggesting that the game can run efficiently on Valve's handheld. That does not mean every player needs the highest refresh option. A lower cap can still feel responsive while extending battery life, especially during exploration or route cleanup.",
+          "The one practical caveat is controller handling. RPG Site notes that the Deck rating included a warning about external Bluetooth or USB controllers sometimes requiring manual active-controller switching through the Quick Access Menu. That is not a dealbreaker, but it is the kind of small setup issue that can look like broken input if the player does not know where to check.",
+        ],
         table: {
-          caption: "Steam Deck check log",
-          columns: ["Setting", "Launch default", "Test target", "Guide note"],
+          caption: "Steam Deck settings table",
+          columns: ["Use case", "Frame rate target", "Power approach", "Why it fits"],
           rows: [
-            ["Frame rate cap", "Needs device check", "Stable play first", "Use with notes"],
-            ["TDP limit", "Needs device check", "Battery value after 20 minutes", "Use with notes"],
-            ["Text readability", "Needs device check", "Readable UI at handheld distance", "Use with notes"],
-            ["Controls", "Needs device check", "Comfortable burrow and sidearm access", "Use with notes"],
+            [
+              "Default handheld play",
+              "Use the game's default or Deck profile first.",
+              "No manual tuning unless battery or heat becomes a concern.",
+              "Best starting point for most players.",
+            ],
+            [
+              "Battery-focused exploration",
+              "60 fps cap",
+              "Lower TDP after confirming stable input and audio.",
+              "Keeps controls responsive while reducing drain.",
+            ],
+            [
+              "OLED smoothness",
+              "90 fps if stable",
+              "Leave headroom rather than forcing the lowest wattage.",
+              "Makes scrolling and dodge timing feel cleaner.",
+            ],
+            [
+              "Docked with controller",
+              "Match display refresh",
+              "Check active controller in Quick Access Menu if input fails.",
+              "Prevents controller confusion during couch play.",
+            ],
           ],
         },
       },
       {
-        heading: "What matters most on handheld",
-        checklist: [
-          "Input latency matters more than visual tweaks for boss fights.",
-          "Text readability should be checked in menus, inventory, and dialogue.",
-          "Battery notes need a timed check, not a guess from one room.",
-        ],
-      },
-      {
-        heading: "Public source boundary",
+        heading: "Why It Matters For Players",
         body: [
-          "External handheld articles can establish that players are looking for platform guidance. They should not be used as a substitute for this site's own settings images or measured notes.",
+          "Steam Deck performance is not just about average frame rate. Mina's combat asks for short, repeated timing decisions: burrow before impact, stop attacking before recovery becomes unsafe, and read hazards while moving between rooms. A stable frame cap is better than chasing a higher number that introduces uneven pacing.",
+          "Battery matters because Mina encourages one-more-room play. A route can easily turn from a quick session into a long exploration loop with a boss at the end. Efficient settings reduce the chance of stopping mid-route, which is especially useful when a player is trying to remember landmarks without a detailed map.",
+        ],
+        checklist: [
+          "Start on default settings before lowering power limits.",
+          "Use a 60 fps cap when battery life matters more than maximum smoothness.",
+          "Use high refresh only if frame pacing remains stable during combat and scrolling.",
+          "Check text readability in menus, inventory, and dialogue before committing to handheld-only play.",
+          "Use the Quick Access Menu if an external controller is connected but not controlling Mina.",
+        ],
+      },
+      {
+        heading: "Important Details Players May Miss",
+        body: [
+          "Pixel art games can look simple and still feel bad when scaling or frame pacing is off. Mina's clean presentation makes sharpness important, especially for hazards, small enemies, and UI prompts. If the image looks soft on an external display, scaling and resolution should be checked before assuming the game itself is unclear.",
+          "Deck owners should also separate platform quality from guide convenience. Steam Deck may be the most comfortable way to play, while desktop PC can be easier for note-taking, route mapping, and screenshot organization. The best platform depends on whether the current session is for relaxed play, boss practice, or route documentation.",
+        ],
+      },
+      {
+        heading: "Current Unknowns And Caveats",
+        body: [
+          "Battery life varies with Deck model, brightness, refresh setting, external controllers, and background downloads. SteamDeckHQ's reported efficiency is a strong signal, but each handheld setup can differ.",
+          "Post-launch patches may also adjust default profiles, controller behavior, or compatibility notes. The safest advice is to begin with the Deck's normal profile, change one setting at a time, and keep the frame cap stable before reducing power.",
+        ],
+      },
+      {
+        heading: "Editorial Takeaway",
+        body: [
+          "Mina the Hollower appears to be exactly the kind of dense action-adventure that benefits from Steam Deck: sharp rooms, quick sessions, low power demands, and enough responsiveness for serious boss attempts. The best settings are not the most complicated ones; they are the ones that keep timing steady and battery anxiety out of the route.",
         ],
       },
     ],
-    imageSlots: [
-      {
-        label: "Performance overlay",
-        note: "Record a 20-minute handheld check with the overlay visible.",
-      },
-      {
-        label: "Menu readability",
-        note: "Record inventory text at default handheld scale.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Are these Steam Deck settings final?",
-        answer:
-          "No. This first version is a handheld settings log; exact measurements should be updated after a timed device run.",
-      },
-      {
-        question: "What should be checked first?",
-        answer:
-          "Start with frame stability, input feel, text readability, and battery use over a timed session.",
-      },
-    ],
-    related: ["switch-vs-pc", "release-date-platforms", "weapons", "save-system"],
-    sources: ["steam", "steamDeckHq", "rpgSiteDeck"],
-    updateLog: [
-      "2026-05-28: Added public-reference-based Deck page with measured-value placeholders.",
-    ],
+    related: ["switch-vs-pc", "release-date-platforms", "review-roundup", "beginner-guide"],
+    sources: ["steam", "rpgSiteDeck", "steamDeckHq", "pcGamerReview"],
   },
   {
     slug: "save-system",
-    navTitle: "Save System",
+    navTitle: "Saving",
     title: "How Saving Works in Mina the Hollower",
-    eyebrow: "Death and progress",
+    eyebrow: "Progress safety",
     description:
-      "A practical save-system page explaining what to record, how to check progress loss, and what players should verify before risky routes.",
-    searchIntent: "how to save",
-    progress: "Use with notes",
+      "A practical save-system guide for Mina the Hollower covering checkpoints, death-risk planning, resource spending, and safe exploration habits.",
+    searchIntent:
+      "Saving, checkpoints, death recovery, currency safety, and route planning.",
     updatedAt: siteConfig.lastChecked,
     quickAnswer:
-      "Before taking a risky branch, confirm where the last safe point is and whether your current resources are protected. This guide is built to document checkpoint behavior with images instead of guessing how much progress is lost after death.",
-    verifiedOn: baseTest,
-    checked: [
-      "Save point UI and death return behavior need local images.",
-      "The guide uses a check checklist so readers know what has not been verified yet.",
-      "Currency and upgrade persistence are not asserted until recorded.",
-    ],
+      "Mina should be played with checkpoint discipline: spend or secure resources before unknown branches, treat dangerous routes as scouting runs, and check progress after each death before pushing forward again. Public coverage points to checkpoint-driven recovery, but exact autosave details should be confirmed in-game before risky routing.",
     sections: [
       {
-        heading: "Save behavior check plan",
+        heading: "Detailed Breakdown",
+        body: [
+          "Mina the Hollower is built around routes, danger, and return paths, so saving is part of the strategy rather than a background convenience. Even without memorizing every system detail, the practical rule is clear: progress feels safest when the player spends resources before taking an unfamiliar branch and returns to a safe point before entering a suspicious arena.",
+          "Gamesear's beginner coverage discusses checkpoints in relation to the Proto Spark trinket, which suggests that checkpoint contact matters for recovery and survival planning. That makes checkpoints more than rest stops. They define when an exploratory push becomes reasonable, when a boss retry is efficient, and when a currency-heavy route should be postponed.",
+          "The main risk is assuming that all progress is equally safe. A player may keep a map discovery, lose a resource state, retain an upgrade, or return to a different position depending on the game's exact save rules. Until those rules are familiar, the safest habit is to verify the character's state after each death: location, currency, inventory, upgrades, and opened shortcuts.",
+        ],
         table: {
-          caption: "Save system checks",
-          columns: ["Question", "How to check", "Why players care", "Guide note"],
+          caption: "Save and death planning table",
+          columns: ["Situation", "Best habit", "Why it matters", "Risk if ignored"],
           rows: [
             [
-              "Where is progress saved?",
-              "Record safe point UI before and after resting",
-              "Prevents replaying a route by mistake",
-              "Use with notes",
+              "Large currency stack",
+              "Spend before scouting a new branch.",
+              "Upgrades and keys turn currency into permanent advantage.",
+              "A failed route can erase momentum and patience.",
             ],
             [
-              "What happens after death?",
-              "Record return point and resource state",
-              "Explains the real risk of scouting",
-              "Use with notes",
+              "Suspicious arena entrance",
+              "Return to the nearest safe point first.",
+              "Boss attempts are more useful from a clean state.",
+              "Low-resource attempts teach less and frustrate more.",
             ],
             [
-              "Do upgrades persist?",
-              "Buy one upgrade, die, then check inventory",
-              "Helps players decide when to spend",
-              "Use with notes",
+              "After a death",
+              "Check location, inventory, currency, and shortcuts.",
+              "The player learns what the save system preserved.",
+              "Repeated deaths can hide the actual penalty.",
+            ],
+            [
+              "Long exploration route",
+              "Open shortcuts before chasing optional loot.",
+              "Backtracking becomes safer and less time-consuming.",
+              "Optional rewards can turn into expensive detours.",
             ],
           ],
         },
       },
       {
-        heading: "Safe habit for new players",
+        heading: "Why It Matters For Players",
+        body: [
+          "Saving affects how aggressively a player explores. If a route is safe to repeat, pushing deeper makes sense. If the route drains health, sidearm energy, or currency every time, the better play is to bank progress, upgrade, or search for a shortcut first. This is especially important in Mina because exploration density makes side paths tempting even when the current build is not ready.",
+          "Death can still be useful if it produces information. A clean death after reaching a boss teaches arena layout or attack timing. A messy death halfway through a hazard corridor may only say that the route was entered with the wrong plan. Save-system awareness turns those outcomes into decisions instead of frustration.",
+        ],
         checklist: [
-          "Spend resources before checking a hazard-heavy path.",
-          "Take a image of the safe point before entering a new branch.",
-          "After death, check inventory, currency, and map progress before continuing.",
+          "Spend currency before entering a route with unknown hazards.",
+          "Open shortcuts before pushing for optional rewards.",
+          "Start boss attempts from a repeatable route state.",
+          "Check inventory and upgrades after dying to learn what persisted.",
+          "Stop scouting when the route back is no longer safe.",
+        ],
+      },
+      {
+        heading: "Important Details Players May Miss",
+        body: [
+          "The save question is not only whether progress is stored. The more useful question is what kind of progress is stored. Map knowledge, opened shortcuts, spent currency, purchased upgrades, boss attempts, and sidequest steps may not all feel the same after a death.",
+          "This is why early players should avoid long chains of unbanked progress. A route that includes a new item, a locked room, a shortcut, and a boss door should be broken into smaller goals. Secure the shortcut, then return. Spend currency, then scout. Learn the boss, then adjust the build.",
+        ],
+      },
+      {
+        heading: "Current Unknowns And Caveats",
+        body: [
+          "Exact autosave triggers, death penalties, and persistence rules can vary by version or patch. A careful guide should not claim more than the game demonstrates in the current build.",
+          "The practical advice remains stable even when details change: bank resources before risk, use shortcuts to reduce repeat time, and evaluate a death by what it taught rather than how far it pushed the player back.",
+        ],
+      },
+      {
+        heading: "Editorial Takeaway",
+        body: [
+          "Mina rewards the player who treats saving as route management. The strongest early habit is not never dying; it is making sure each death starts from a sensible state and teaches something useful about the room, the boss, or the build.",
         ],
       },
     ],
-    imageSlots: [
-      {
-        label: "Safe point UI",
-        note: "Record the exact save prompt or resting screen.",
-      },
-      {
-        label: "After death state",
-        note: "Record currency and inventory immediately after returning.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Can I manually save anywhere?",
-        answer:
-          "This needs player confirmation. Until the save UI is recorded, treat risky branches as scouting trips.",
-      },
-      {
-        question: "What should I check after dying?",
-        answer:
-          "Check return location, currency, upgrades, inventory, and map progress before pushing forward.",
-      },
-    ],
     related: ["beginner-guide", "map", "bosses", "how-long-to-beat"],
-    sources: ["steam", "official"],
-    updateLog: [
-      "2026-05-28: Added save-system checking checklist without unsupported death-penalty claims.",
-    ],
+    sources: ["steam", "gamesearBeginner", "rpgSiteReview"],
   },
   {
     slug: "how-long-to-beat",
@@ -762,83 +804,88 @@ export const guides: Guide[] = [
     title: "How Long Is Mina the Hollower?",
     eyebrow: "Time estimate",
     description:
-      "Play time estimates for Mina the Hollower with separate tracks for first run, careful exploration, and future route checking.",
-    searchIntent: "how long to beat",
-    progress: "Use with notes",
+      "A play-time guide for Mina the Hollower that separates first runs, exploration-heavy play, replay modifiers, and review-reported completion ranges.",
+    searchIntent:
+      "Play time, first-run length, exploration time, replay value, and completion expectations.",
     updatedAt: siteConfig.lastChecked,
     quickAnswer:
-      "Do not trust a single play-time number on launch day. A careful first run, a faster action-focused run, and a route-checking guide run will all produce different times, so this page tracks estimates separately until real save data is recorded.",
-    verifiedOn: baseTest,
-    checked: [
-      "No final time claim is made before local save data is recorded.",
-      "The table separates player style instead of presenting one number.",
-      "Guide note images will be added at major route checkpoints.",
-    ],
+      "Expect a first run to land roughly around the high teens to 20-plus hours depending on exploration and boss difficulty. Review coverage includes an 18-hour first playthrough at partial exploration and a roughly 20-hour playtime estimate, while Yacht Club's stated scope points to much longer value for secrets, New Game Plus, and modifiers.",
     sections: [
       {
-        heading: "Time estimate tracker",
+        heading: "Detailed Breakdown",
+        body: [
+          "Mina the Hollower should not be judged by a single play-time number. The main path, secret hunting, trinket routing, boss retries, and modifier play all pull in different directions. A player who follows the obvious route and adapts quickly will finish far sooner than one who checks every suspicious wall, revisits areas with new tools, and experiments with builds.",
+          "Early review data gives a useful range. Metacritic's critic excerpts include an 18-hour first-time playthrough at 54 percent exploration, while Worthplaying describes the game as roughly 20 hours with extra content and modifiers beyond that. Those numbers fit the structure Yacht Club has described: a large interconnected world, more than 25 bosses and mini-bosses, 60 Trinkets, New Game Plus, and hundreds of gameplay modifiers.",
+          "The key is that Mina's length is elastic. Boss walls, map uncertainty, and build experimentation can add hours without feeling like padding because they are part of how the game asks players to learn. On the other hand, players comfortable with classic Zelda-style navigation and Soulslike repetition may move through the same material much faster.",
+        ],
         table: {
-          caption: "Play time categories",
-          columns: ["Run type", "Who it fits", "What to measure", "Guide note"],
+          caption: "Play-time expectation table",
+          columns: ["Run style", "Likely range", "What adds time", "Best fit"],
           rows: [
             [
-              "First cautious run",
-              "Players reading rooms and trying builds",
-              "Save time at each major area",
-              "Use with notes",
+              "Focused first run",
+              "High teens to low 20s",
+              "Boss retries and required route learning.",
+              "Players who avoid heavy side tracking.",
             ],
             [
-              "Action-focused run",
-              "Players skipping optional checks",
-              "Time to credits once route is known",
-              "Use with notes",
+              "Exploration-heavy first run",
+              "20-plus hours",
+              "Secrets, trinkets, locked rooms, and route revisits.",
+              "Players who dislike leaving suspicious rooms unresolved.",
             ],
             [
-              "Guide record run",
-              "Players taking notes and images",
-              "Extra time from documentation",
-              "Use with notes",
+              "Build experiment run",
+              "Variable",
+              "Weapon swaps, trinket experimentation, and optional farming.",
+              "Players optimizing comfort rather than speed.",
+            ],
+            [
+              "Replay and modifiers",
+              "Long tail",
+              "New Game Plus and gameplay modifiers.",
+              "Players who enjoy remixing a known route.",
             ],
           ],
         },
       },
       {
-        heading: "What changes the length",
+        heading: "Why It Matters For Players",
+        body: [
+          "Play time matters because Mina is dense rather than enormous in the open-world sense. A 20-hour estimate can hide very different experiences: one player may spend that time moving steadily through new regions, while another spends several hours solving one boss, backtracking for trinkets, or rebuilding around a difficult route.",
+          "The length also affects build planning. A game with meaningful replay modifiers and New Game Plus makes it easier to choose fun over perfection on the first run. Missing an optional trinket or leaving a route unresolved does not have to become a progress-stopping problem if the game continues to reward later experimentation.",
+        ],
         checklist: [
-          "How often you return to safe points before scouting.",
-          "Whether you check multiple weapons and trinkets.",
-          "How much route mapping and image record you do.",
-          "How many boss attempts are needed before a clean clear.",
+          "Add time for bosses that require repeated pattern learning.",
+          "Add time for secret hunting, especially without a detailed room map.",
+          "Add time for trinket and weapon experimentation.",
+          "Expect shorter sessions on Steam Deck to stretch the calendar time even if save time stays modest.",
+          "Treat replay modifiers as a separate value layer rather than part of the first-run estimate.",
+        ],
+      },
+      {
+        heading: "Important Details Players May Miss",
+        body: [
+          "A first-run hour count does not capture completion pressure. Worthplaying notes that the map can be relatively limited and expects players to remember visited locations, with shortcuts helping the process. That means a completion-minded player may spend time not because the world is huge, but because the route memory burden is real.",
+          "Boss difficulty also changes length more than raw content count. A player stuck on a midgame fight can add an hour through attempts, gear swaps, or farming. Another player with the right trinket setup may clear the same wall quickly. Mina's time-to-beat is therefore partly a measure of how efficiently the player diagnoses problems.",
+        ],
+      },
+      {
+        heading: "Current Unknowns And Caveats",
+        body: [
+          "Public play-time data will stabilize after launch as more players finish on different platforms and difficulties. Early critic numbers are useful, but they come from experienced reviewers and may not reflect a first-time player's routing habits.",
+          "Completion estimates should also be treated carefully because the game includes many trinkets, secrets, modifiers, and replay hooks. A practical page should separate main-path time, exploration time, and replay time instead of flattening them into one number.",
+        ],
+      },
+      {
+        heading: "Editorial Takeaway",
+        body: [
+          "Mina the Hollower looks compact, but its real length comes from density. The main path appears substantial on its own, while secrets, trinkets, boss learning, New Game Plus, and modifiers give it the kind of afterlife that suits players who like mastering a world rather than simply clearing it once.",
         ],
       },
     ],
-    imageSlots: [
-      {
-        label: "Save time checkpoint",
-        note: "Record the save screen at each route milestone.",
-      },
-      {
-        label: "Guide note marker",
-        note: "Record map or area label when a new major section starts.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Why is there no single time estimate yet?",
-        answer:
-          "A launch-day estimate without save data would be guesswork, so the page tracks categories until checking is logged.",
-      },
-      {
-        question: "Will image record make the run longer?",
-        answer:
-          "Yes. A guide record run should be measured separately from a normal player run.",
-      },
-    ],
     related: ["beginner-guide", "map", "save-system", "bosses"],
-    sources: ["steam", "official"],
-    updateLog: [
-      "2026-05-28: Added play-time tracker structure without a final hour claim.",
-    ],
+    sources: ["metacritic", "worthplayingReview", "yachtSpring", "steam"],
   },
   {
     slug: "release-date-platforms",
@@ -846,92 +893,88 @@ export const guides: Guide[] = [
     title: "Mina the Hollower Release Date and Platforms",
     eyebrow: "Buying facts",
     description:
-      "Release date, platform, language, and store notes for Mina the Hollower with store and platform notes.",
-    searchIntent: "release date, platforms, Chinese support",
-    progress: "Store page",
+      "Mina the Hollower release date and platform guide for Steam, Switch, PS5, Xbox, language support, and regional timing.",
+    searchIntent:
+      "Release date, platform list, PC storefront, language support, and buying timing.",
     updatedAt: siteConfig.lastChecked,
     quickAnswer:
-      "Check the Steam store and Yacht Club pages before buying, because launch timing can display differently by region and storefront. This page keeps platform, language, and store facts separate from hands-on guide checking.",
-    verifiedOn: {
-      ...baseTest,
-      platform: "Storefront and publisher pages",
-      note: "Facts on this page are source-checked, not hands-on performance claims.",
-    },
-    checked: [
-      "Release and platform facts are sourced from source-backed pages.",
-      "Hands-on performance is handled on platform-specific pages.",
-      "Language support should be rechecked on the Steam page before publishing changes.",
-    ],
+      "Mina the Hollower is launching at the end of May 2026, with Steam currently showing May 28 in some regions and many platform/review pages listing May 29. Steam, Nintendo Switch, Nintendo Switch 2, PlayStation 5, and Xbox Series X|S are the core publicly listed platforms, with Steam showing Simplified and Traditional Chinese interface support.",
     sections: [
       {
-        heading: "Launch facts to verify before publishing",
+        heading: "Detailed Breakdown",
+        body: [
+          "The date situation needs careful wording because storefronts can show different calendar days depending on region and unlock timing. Steam currently lists May 28, 2026, while RPG Site and other public platform coverage refer to a May 29 launch. For a global audience, the most useful answer is not to force one date, but to explain that the unlock sits across that late-May window by region.",
+          "Platform support is broad for an indie action-adventure. Yacht Club's launch messaging lists Nintendo Switch 2, Nintendo Switch, PlayStation 5, Xbox Series X, and Steam. RPG Site's Steam Deck coverage also lists Xbox Series X|S and PC via Steam. Steam's own page shows Windows, macOS, and SteamOS/Linux system requirement sections, making PC support wider than a single Windows-only release.",
+          "Language support is especially important for a new guide subdomain because Chinese players may search before buying. Steam lists English plus 12 more supported languages for interface text, including Simplified Chinese and Traditional Chinese. The Steam table does not indicate full audio support in those languages, so buyers who require voice localization should check the storefront language matrix before purchase.",
+        ],
         table: {
-          caption: "Store fact tracker",
-          columns: ["Fact", "Where to check", "How to write it", "Guide note"],
+          caption: "Release and platform table",
+          columns: ["Question", "Current answer", "Player impact", "Caveat"],
           rows: [
             [
-              "Release timing",
-              "Steam and Yacht Club pages",
-              "Mention regional display differences if storefronts differ",
-              "Store page",
+              "Release date",
+              "Late May 2026, shown as May 28 or May 29 depending on source and region.",
+              "Players should check their storefront unlock time.",
+              "Regional store timing can shift the displayed date.",
             ],
             [
-              "PC availability",
-              "Steam store page",
-              "List Steam as the PC storefront when visible",
-              "Store page",
+              "PC platform",
+              "Steam, with Windows, macOS, and SteamOS/Linux sections visible.",
+              "PC players get flexible hardware and capture options.",
+              "Availability should be checked on the store used for purchase.",
             ],
             [
               "Console platforms",
-              "Publisher page",
-              "Use publisher wording and avoid performance claims",
-              "Store page",
+              "Switch 2, Switch, PS5, and Xbox Series X|S are publicly listed.",
+              "Players can choose handheld, couch, or high-refresh setups.",
+              "Performance differs by hardware.",
             ],
             [
-              "Chinese language support",
-              "Steam language table",
-              "State support only if visible on the storefront",
-              "Store page",
+              "Chinese support",
+              "Steam lists Simplified and Traditional Chinese interface support.",
+              "Chinese readers can make a clearer buying decision.",
+              "Audio and subtitle columns should be read separately on Steam.",
             ],
           ],
         },
       },
       {
-        heading: "Buying checklist",
+        heading: "Why It Matters For Players",
+        body: [
+          "Release timing affects more than impatience. A player buying on Steam may see the store unlock before or after a console listing in another timezone, while review coverage may use the publisher's global date. This is common for global launches and should not be read as conflicting availability unless a specific storefront fails to list the game.",
+          "Platform choice also changes the first week experience. PC and Steam Deck make screenshots, settings, and guide-following easier. Switch and Switch 2 offer stronger handheld convenience for players already inside the Nintendo ecosystem. PS5 and Xbox Series X|S may be better living-room choices for players who want controller-first play without PC setup.",
+        ],
         checklist: [
-          "Confirm your storefront region and listed release date.",
-          "Check language support on the Steam page if you need Chinese text.",
-          "Use platform comparison pages for performance, not this fact sheet.",
+          "Check the exact unlock time on the storefront being used.",
+          "Use Steam's language matrix for PC language support before purchase.",
+          "Choose Steam Deck or PC for easier guide-following and settings control.",
+          "Choose Switch or Switch 2 for native handheld play.",
+          "Check platform-specific performance coverage if high refresh or HDR matters.",
+        ],
+      },
+      {
+        heading: "Important Details Players May Miss",
+        body: [
+          "Steam's feature list includes Steam Achievements, Steam Cloud, Remote Play options, and Family Sharing. Steam Cloud is useful for players moving between desktop and Steam Deck, while Remote Play support matters for players who want to stream to a phone, tablet, or TV without rebuying on console.",
+          "Price references in early coverage commonly mention $19.99, but store pricing can vary by region and platform. The practical buying advice is to check the local storefront rather than relying on a US-dollar mention from review coverage.",
+        ],
+      },
+      {
+        heading: "Current Unknowns And Caveats",
+        body: [
+          "Storefront pages can change around launch, especially for regional pricing, language display, and platform-specific feature labels. The release page should stay tied to storefront data rather than old announcement text.",
+          "Older articles that mention a broad Spring 2026 window are still useful for platform context, but the current buying decision should use the live store listing and the latest launch-date coverage.",
+        ],
+      },
+      {
+        heading: "Editorial Takeaway",
+        body: [
+          "Mina the Hollower is arriving as a genuinely multiplatform release rather than a PC-first oddity. The best buying choice comes down to how the player wants to engage with it: Steam for flexibility and Deck sync, Switch hardware for portable comfort, or home console for a straightforward controller setup.",
         ],
       },
     ],
-    imageSlots: [
-      {
-        label: "Steam language table",
-        note: "Record the Steam language support row before marking language facts Verified.",
-      },
-      {
-        label: "Platform list",
-        note: "Record the publisher platform section for archive reference.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Why can release dates look different?",
-        answer:
-          "Storefronts can display launch timing by region, so this page points readers to the current store before buying.",
-      },
-      {
-        question: "Where should I check language support?",
-        answer:
-          "Use the Steam language table for PC language support, then recheck before purchase.",
-      },
-    ],
     related: ["steam-deck-settings", "switch-vs-pc", "review-roundup", "beginner-guide"],
-    sources: ["steam", "official", "press"],
-    updateLog: [
-      "2026-05-28: Added store information page with storefront recheck guidance.",
-    ],
+    sources: ["steam", "yachtSpring", "rpgSiteDeck"],
   },
   {
     slug: "review-roundup",
@@ -939,93 +982,94 @@ export const guides: Guide[] = [
     title: "Mina the Hollower Review Roundup",
     eyebrow: "Should you buy?",
     description:
-      "A review roundup that turns external coverage into buyer guidance without copying review text or pretending to be a score authority.",
-    searchIntent: "reviews, scores, worth it",
-    progress: "Store page",
+      "Mina the Hollower review roundup with critic scores, buyer fit, combat notes, difficulty caveats, Steam Deck play, and replay value.",
+    searchIntent:
+      "Review scores, critical consensus, buyer fit, difficulty concerns, and platform impressions.",
     updatedAt: siteConfig.lastChecked,
     quickAnswer:
-      "Use reviews to decide whether Mina fits your taste: classic action-adventure pacing, precise combat, exploration, and handheld play. This roundup focuses on what reviewers agree or disagree about, then points you to source pages for exact scores.",
-    verifiedOn: {
-      ...baseTest,
-      platform: "External review and platform coverage",
-      note: "Score rows should be updated only after checking the linked review pages.",
-    },
-    checked: [
-      "This site has not published its own score.",
-      "External pages are cited for reader context and exact score verification.",
-      "Hands-on buyer advice will be updated after PC / Steam checking.",
-    ],
+      "Early reviews are strongly positive, with critics praising Mina's dense exploration, precise combat, build variety, and retro presentation. The main cautions are difficulty, movement learning curve, map memory, and some early-game friction. Players who like Zelda-style exploration with sharper combat pressure are the best fit.",
     sections: [
       {
-        heading: "Review signal table",
+        heading: "Detailed Breakdown",
+        body: [
+          "The critical picture is unusually strong. Nintendo Life's review roundup cites a Metascore in the low 90s from dozens of critic reviews, while PC Gamer scored Mina 90 and RPG Site awarded it a 10. The consensus is not only that Mina looks nostalgic, but that it uses retro limits to create a dense, modern action-adventure.",
+          "The repeated praise centers on design density. Critics keep returning to combat, secrets, puzzle rooms, trinkets, boss pressure, and replay modifiers. That matters for buyers because Mina is not being reviewed as a pretty throwback alone. It is being judged as a game with enough mechanical weight to support long exploration and build experimentation.",
+          "The criticisms are also useful. Some coverage points to movement learning, map limitations, early enemy pressure, and friction around difficulty. Those are not necessarily dealbreakers, but they define the right audience. Mina is more appealing to players who enjoy learning a compact world than to players who want frictionless forward progress.",
+        ],
         table: {
-          caption: "External coverage to check",
-          columns: ["Source", "Useful angle", "What readers learn", "Guide note"],
+          caption: "Review signal table",
+          columns: ["Outlet", "Score or angle", "Main praise", "Buyer takeaway"],
           rows: [
             [
-              "SteamDeckHQ",
-              "Handheld performance",
-              "Steam Deck behavior and settings priorities",
-              "Store page",
+              "PC Gamer",
+              "90",
+              "Combat, secrets, modifiers, and challenge flexibility.",
+              "Strong pick for players who want depth inside a retro frame.",
             ],
             [
               "RPG Site",
-              "Platform comparison",
-              "Which version may fit a player setup",
-              "Store page",
+              "10",
+              "Top-down adventure structure, surprises, and burrow-driven design.",
+              "Appeals to players who value discovery and systems recontextualization.",
             ],
             [
-              "Gamesear",
-              "Beginner experience",
-              "What a first-time player should notice early",
-              "Store page",
+              "Nintendo Life roundup",
+              "Broad high-score consensus",
+              "Exploration, gothic style, and strong classic-adventure craft.",
+              "Useful for comparing platform-specific review angles.",
+            ],
+            [
+              "Worthplaying",
+              "9.0/10",
+              "Trinkets, secrets, modifiers, and replay hooks.",
+              "Good signal for players who care about build variety.",
             ],
           ],
         },
       },
       {
-        heading: "Who should buy first",
+        heading: "Why It Matters For Players",
+        body: [
+          "Review scores answer only part of the buying question. The useful signal is fit. Mina appears to be strongest for players who enjoy reading enemy patterns, chasing hidden routes, experimenting with build tools, and accepting that some friction is intentional. A high score does not mean the game is effortless.",
+          "The score spread also points to a specific kind of confidence. Critics are praising the game despite its demanding movement and old-school map expectations, which suggests those rough edges are part of the intended texture rather than signs of a thin project. Players who dislike route memory or repeated boss attempts should take that seriously before buying.",
+        ],
         checklist: [
-          "Players who enjoy classic action-adventure games with precise room reading.",
-          "Players who want a compact, route-driven game to check builds and movement.",
-          "Handheld players who are willing to check current platform coverage first.",
+          "Buy early if dense exploration, tough combat, and build experiments sound appealing.",
+          "Consider waiting if limited map guidance is a major frustration.",
+          "Check Steam Deck or Switch 2 coverage if handheld performance is the deciding factor.",
+          "Expect the retro look to hide a more demanding combat rhythm than the art style suggests.",
+          "Use reviews for fit, not just score comparison.",
         ],
       },
       {
-        heading: "Who should wait",
-        checklist: [
-          "Players who need a fully mapped route before starting.",
-          "Players buying on a platform where performance details matter and are not yet personally checked.",
-          "Players who dislike replaying dangerous rooms while learning boss patterns.",
+        heading: "Important Details Players May Miss",
+        body: [
+          "Several reviews emphasize modifiers and New Game Plus, which changes the value equation. Mina is not only a main-path purchase; it appears designed for players who want to replay with altered rules, different gear priorities, or more efficient routing.",
+          "The map discussion is one of the most important buyer caveats. Worthplaying notes that the map can be more general than some modern players expect, with the game relying on memorable screens and shortcuts. That can be exciting for old-school exploration fans and draining for players who prefer explicit objective markers.",
+          "Steam Deck coverage is another positive signal. A high-scoring action-adventure that also runs efficiently on handheld hardware has a stronger chance of becoming a daily-session game rather than a backlog item.",
         ],
       },
-    ],
-    imageSlots: [
       {
-        label: "Our PC settings screen",
-        note: "Add a PC image before publishing a site verdict.",
+        heading: "Current Unknowns And Caveats",
+        body: [
+          "Aggregate scores can move as more reviews arrive. Early enthusiasm is strong, but readers should treat score averages as a snapshot, not a permanent verdict.",
+          "User reviews will add a different signal after launch, especially around difficulty spikes, platform-specific bugs, and map friction. Critic reviews suggest high quality, but player response will clarify which complaints matter most outside review conditions.",
+        ],
       },
       {
-        label: "First hour route evidence",
-        note: "Add a route image before claiming first-hand pacing notes.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Does this site score the game?",
-        answer:
-          "Not yet. It links external coverage and waits for PC checking before publishing a verdict.",
-      },
-      {
-        question: "What matters more than a score?",
-        answer:
-          "Fit matters most: combat timing, exploration tolerance, handheld needs, and comfort with retrying rooms.",
+        heading: "Editorial Takeaway",
+        body: [
+          "The review conversation around Mina the Hollower is not just hype for another retro indie. It points to a game with real mechanical density, a confident world structure, and enough challenge to make gear and route decisions matter. For the right player, that is a stronger buying signal than the score itself.",
+        ],
       },
     ],
     related: ["release-date-platforms", "steam-deck-settings", "switch-vs-pc", "beginner-guide"],
-    sources: ["steamDeckHq", "rpgSitePlatform", "gamesearBeginner", "steam"],
-    updateLog: [
-      "2026-05-28: Added source-first review roundup without copying review verdicts.",
+    sources: [
+      "pcGamerReview",
+      "rpgSiteReview",
+      "nintendoLifeRoundup",
+      "worthplayingReview",
+      "metacritic",
     ],
   },
   {
@@ -1034,186 +1078,186 @@ export const guides: Guide[] = [
     title: "Mina the Hollower Switch vs PC",
     eyebrow: "Platform choice",
     description:
-      "A Switch vs PC buying guide that separates public platform coverage from PC / Steam checking.",
-    searchIntent: "Switch vs PC",
-    progress: "Store page",
+      "Mina the Hollower Switch vs PC comparison for Steam Deck, Switch 2, portability, HDR, performance priorities, and guide use.",
+    searchIntent:
+      "Switch vs PC, Switch 2 performance, Steam Deck, platform choice, and buying advice.",
     updatedAt: siteConfig.lastChecked,
     quickAnswer:
-      "Choose PC if you want easier images, settings control, and faster guide updates. Choose Switch only after checking current platform coverage and your handheld preference, because this site has Switch performance can vary by hardware and patch.",
-    verifiedOn: {
-      ...baseTest,
-      platform: "PC / Steam first, Switch notes from platform coverage",
-      note: "No Switch hands-on claims are made in this first version.",
-    },
-    checked: [
-      "PC record workflow is planned for this site.",
-      "Switch notes are sourced from public platform coverage until hardware checking exists.",
-      "Load times and performance are not estimated without measured data.",
-    ],
+      "Choose PC or Steam Deck for flexibility, cloud saves, settings control, and easier guide-following. Choose Switch or Switch 2 for native handheld and console convenience. Switch 2 coverage points to 120 fps support and HDR options, while Steam Deck coverage emphasizes strong efficiency and verified compatibility.",
     sections: [
       {
-        heading: "Platform decision table",
+        heading: "Detailed Breakdown",
+        body: [
+          "Mina the Hollower is a rare platform decision where several choices look strong. PC offers the most flexibility: desktop play, Steam Deck sync, easier screenshots, adjustable settings, and Steam features such as Cloud and Remote Play. That makes it the best fit for players who plan to follow guides, compare builds, or move between machines.",
+          "Switch and Switch 2 offer the cleaner console experience. Nintendo Life's Switch 2 review coverage says the original Switch targets 60 fps, while Switch 2 supports 120 fps and HDR settings for compatible displays. That makes Switch 2 especially appealing for players who want a high-refresh portable-console version without PC management.",
+          "Steam Deck sits between those worlds. It keeps the Steam ecosystem while playing like a handheld, and SteamDeckHQ reports excellent performance and low power draw. For many players, Deck will be the most practical version because Mina's room-based exploration and retry loops fit short portable sessions extremely well.",
+        ],
         table: {
-          caption: "Switch vs PC choice",
-          columns: ["Need", "PC / Steam", "Switch", "Guide note"],
+          caption: "Platform choice table",
+          columns: ["Player priority", "Best fit", "Why", "Caveat"],
           rows: [
             [
-              "Guide images",
-              "Best fit for quick record and updates",
-              "Needs record workflow",
-              "Use with notes",
+              "Guide-following and screenshots",
+              "PC / Steam",
+              "Easier capture, note-taking, settings control, and Steam Cloud.",
+              "Less portable unless paired with Steam Deck.",
             ],
             [
-              "Handheld play",
-              "Steam Deck route if available",
-              "Native handheld experience",
-              "Store page",
+              "Portable Steam library",
+              "Steam Deck",
+              "Strong handheld fit with reported efficient performance.",
+              "External controller setup may need manual switching.",
             ],
             [
-              "Settings control",
-              "More visible options and record tools",
-              "Depends on platform build",
-              "Use with notes",
+              "Nintendo handheld play",
+              "Switch",
+              "Straightforward console portability.",
+              "Lower hardware ceiling than Switch 2.",
             ],
             [
-              "Portability",
-              "Depends on PC handheld",
-              "Strong reason to choose console",
-              "Store page",
+              "High-refresh console play",
+              "Switch 2",
+              "Coverage points to 120 fps support and HDR options.",
+              "Display support affects the value of those features.",
             ],
           ],
         },
       },
       {
-        heading: "Recommendation for guide users",
+        heading: "Why It Matters For Players",
         body: [
-          "If your goal is to follow and verify this guide quickly, PC / Steam is the first version to prioritize because images, updates, and route notes can be recorded faster. Platform preference still matters, so the guide should not tell handheld-first players to ignore Switch coverage.",
+          "Platform choice changes how Mina is played. On PC, the player can easily keep a map note open, compare guide pages, capture screenshots, and adjust display settings. On Switch hardware, the game becomes more frictionless as a portable adventure, but research and route tracking may require a second screen.",
+          "High refresh matters because Mina's movement is timing-heavy. Burrow timing, scrolling rooms, projectile reads, and boss punish windows all benefit from stable frame pacing. A higher ceiling is attractive, but stability and display compatibility matter more than a headline number.",
+        ],
+        checklist: [
+          "Pick PC if settings control, screenshots, and guide use matter most.",
+          "Pick Steam Deck if portable play and Steam Cloud are both priorities.",
+          "Pick Switch if simple handheld convenience beats performance extras.",
+          "Pick Switch 2 if 120 fps and HDR support fit the display setup.",
+          "Avoid buying only on score; buy on the platform that supports the way the game will actually be played.",
+        ],
+      },
+      {
+        heading: "Important Details Players May Miss",
+        body: [
+          "Steam features can matter more than expected. Steam Cloud makes a desktop-to-Deck setup smoother, while Remote Play options add flexibility for TV or tablet sessions. Those features are not glamorous, but they fit a game where short sessions can become repeated boss attempts.",
+          "Switch 2's high-refresh advantage depends on the display environment. A player using handheld mode or a compatible TV may see more value than someone docked to a standard 60 Hz screen. HDR support also depends on the display, settings, and personal preference for pixel-art presentation.",
+          "The best guide platform is not always the best couch platform. Players planning to map routes, compare screenshots, and update notes will have an easier time on PC. Players planning to enjoy the adventure casually may prefer the console that gets them playing fastest.",
+        ],
+      },
+      {
+        heading: "Current Unknowns And Caveats",
+        body: [
+          "Performance coverage can change after patches, and platform-specific bugs may surface only after broad launch. Early reviews are useful, but storefront and patch notes should be checked for the exact platform being purchased.",
+          "The Switch 2, Steam Deck, and PC options each have different display and input variables. The best version for one player may not be the best version for another if the actual setup is a 60 Hz TV, an OLED handheld, or a desktop monitor.",
+        ],
+      },
+      {
+        heading: "Editorial Takeaway",
+        body: [
+          "Mina the Hollower is strong enough across platforms that the decision should be practical rather than defensive. PC and Deck are best for flexibility; Switch hardware is best for console convenience; Switch 2 is the most interesting choice for players who can actually use its high-refresh and HDR advantages.",
         ],
       },
     ],
-    imageSlots: [
-      {
-        label: "PC settings menu",
-        note: "Record PC settings and input options.",
-      },
-      {
-        label: "Switch comparison to add",
-        note: "Add only after a Switch record or reliable owned-device check.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Is PC better for guide users?",
-        answer:
-          "PC is better for fast images and settings checks, which makes guide updates easier.",
-      },
-      {
-        question: "Has this site checked Switch?",
-        answer:
-          "No. Switch comments are reference-based only until a hardware check is added.",
-      },
-    ],
     related: ["steam-deck-settings", "release-date-platforms", "review-roundup", "map"],
-    sources: ["steam", "official", "rpgSitePlatform"],
-    updateLog: [
-      "2026-05-28: Added platform-choice page with no unsupported Switch hands-on claims.",
-    ],
+    sources: ["steam", "steamDeckHq", "rpgSiteDeck", "nintendoLifeSwitch2", "rpgSitePlatform"],
   },
   {
     slug: "map",
     navTitle: "Map",
     title: "Mina the Hollower Map and Route Notes",
-    eyebrow: "Area tracking",
+    eyebrow: "Area routing",
     description:
-      "A map and route-note hub for Mina the Hollower, designed to show explored areas, landmarks, and image-backed route steps.",
-    searchIntent: "map, areas, route",
-    progress: "Use with notes",
+      "A Mina the Hollower map guide for route memory, landmarks, shortcuts, backtracking, exploration pressure, and avoiding wasted trips.",
+    searchIntent:
+      "Map, areas, route notes, shortcuts, landmarks, and exploration planning.",
     updatedAt: siteConfig.lastChecked,
     quickAnswer:
-      "Use the map page as a route notebook. Only explored areas should get route notes, and each useful map entry needs a landmark, risk note, return path, and image before it becomes a guide recommendation.",
-    verifiedOn: baseTest,
-    checked: [
-      "No unexplored area gets a standalone page in the first version.",
-      "The route table is ready for images and landmarks.",
-      "Late-area names are avoided until they are visible in player records or trusted sources.",
-    ],
+      "Mina's map should be treated as a memory aid, not a route autopilot. Review coverage points to a relatively general map structure, so good route planning depends on landmarks, shortcuts, risk notes, and remembering which rooms connect to locked doors, trinkets, bosses, and safe return paths.",
     sections: [
       {
-        heading: "Route note table",
+        heading: "Detailed Breakdown",
+        body: [
+          "Mina the Hollower's world is described by Yacht Club as huge, dark, secret-filled, and interconnected, with dozens of regions and more screens than Shovel Knight: Treasure Trove. That scope makes route memory a real skill. The player is not just moving from marker to marker; each room can hide a shortcut, item, locked door, enemy pattern, or later return point.",
+          "Worthplaying's review calls out the map as more general than some modern players may expect, with the game relying on memorable screens and generous shortcuts. That design can be rewarding because it makes the world feel physical, but it can frustrate players who leave a suspicious room and cannot remember how to reach it two hours later.",
+          "A useful map page should therefore organize routes by player task rather than raw area name. The most important information is what a room is for: a shortcut to open, a trinket to revisit, a locked door to price out, a boss route to make repeatable, or a danger room that should be skipped until the build improves.",
+        ],
         table: {
-          caption: "Map entry structure",
-          columns: ["Entry", "What to record", "Why it helps", "Guide note"],
+          caption: "Route note table",
+          columns: ["Route detail", "What to record", "Why it matters", "Player action"],
           rows: [
             [
-              "Area name",
-              "Exact visible label or nearby landmark",
-              "Lets players match their screen",
-              "Use with notes",
+              "Landmark",
+              "A visual room feature, NPC, door, or hazard pattern.",
+              "Players remember screens more easily than abstract area names.",
+              "Use it as the anchor for return trips.",
             ],
             [
-              "Risk",
-              "Hazards, enemy types, or resource pressure",
-              "Prevents blind pushes",
-              "Use with notes",
+              "Shortcut",
+              "What it connects and which side opens it.",
+              "Shortcuts reduce repeated damage before bosses or loot runs.",
+              "Open it before chasing optional rewards.",
             ],
             [
-              "Return path",
-              "Nearest safe point or backtrack route",
-              "Helps players bank progress",
-              "Use with notes",
+              "Locked door",
+              "Cost, nearby route, and likely reward type.",
+              "Keys compete with upgrades for early currency.",
+              "Return after spending decisions are clear.",
             ],
             [
-              "Image",
-              "Map or room image",
-              "Proves the note belongs to that route",
-              "Use with notes",
+              "Danger room",
+              "Main enemy, hazard, and best exit direction.",
+              "Some rooms are safer as scouting routes than farming routes.",
+              "Skip or rebuild if it drains too many resources.",
             ],
           ],
         },
       },
       {
-        heading: "How to read this map",
+        heading: "Why It Matters For Players",
+        body: [
+          "Map discipline directly affects progression speed. A player who remembers the shortcut back to a boss gets more useful attempts per session. A player who forgets where a locked room was may waste time wandering through already-solved danger. Mina's density makes small notes valuable because the world keeps offering reasons to return.",
+          "The map also changes how players value trinkets and upgrades. A movement option may make a previously annoying route safe. A defensive build may make a hazard corridor affordable. A key may become worth buying only after the player remembers where the locked door sits relative to a safe point.",
+        ],
         checklist: [
-          "Treat gray entries as scouting notes, not recommendations.",
-          "Use green entries only when the route has a image and return-path note.",
-          "Check update dates before following a route after a patch.",
+          "Name routes by landmark first and area name second.",
+          "Record which shortcuts are open before planning boss attempts.",
+          "Mark locked doors by cost and nearby safe point.",
+          "Separate optional loot routes from required progression routes.",
+          "Return to suspicious rooms after gaining movement, sidearm, or trinket options.",
+        ],
+      },
+      {
+        heading: "Important Details Players May Miss",
+        body: [
+          "A limited map can make a game feel harder even when combat is not the blocker. The frustration often comes from uncertainty: where the door was, whether a route has a safe return, or which branch led to the NPC. A good route note removes that uncertainty without flattening the exploration.",
+          "Shortcuts are more valuable than they look. Opening a shortcut may not feel as exciting as finding a trinket, but it improves every future boss attempt, farming loop, and revisit. In a dense action-adventure, route compression is a form of power.",
+          "Not every suspicious path should be solved immediately. Mina rewards curiosity, but it also punishes overextension. If a room drains healing, forces repeated sidearm use, or requires a movement option that does not feel consistent yet, the better play is to mark it and return later.",
+        ],
+      },
+      {
+        heading: "Current Unknowns And Caveats",
+        body: [
+          "A spoiler-safe map should avoid dumping late-region names before players naturally reach them. Public sources confirm a large world with many regions and secrets, but route guidance is most useful when it stays tied to where the player is in the adventure.",
+          "Patch changes may adjust shortcuts, item placement, or map behavior. The route system should be written around landmarks and decision points so it remains useful even if exact reward values shift.",
+        ],
+      },
+      {
+        heading: "Editorial Takeaway",
+        body: [
+          "Mina's map design appears built to make exploration feel earned. The best route notes should preserve that feeling while removing needless friction: landmark, shortcut, risk, return path, and reason to come back. That is enough structure to help without turning the world into a checklist.",
         ],
       },
     ],
-    imageSlots: [
-      {
-        label: "First area landmark",
-        note: "Record the earliest visible area label or landmark.",
-      },
-      {
-        label: "Safe return route",
-        note: "Record the return route after a resource-heavy branch.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Is this an interactive map?",
-        answer:
-          "Not yet. The first version is a route-note hub that can become interactive after verified area images exist.",
-      },
-      {
-        question: "Why are some route entries marked Use with notes?",
-        answer:
-          "They still need a landmark, risk note, return path, and image before they are reliable.",
-      },
-    ],
     related: ["beginner-guide", "save-system", "trinkets", "bosses"],
-    sources: ["steam", "official", "press"],
-    updateLog: [
-      "2026-05-28: Added route-note structure without unsupported area claims.",
-    ],
+    sources: ["yachtSpring", "worthplayingReview", "steam", "rpgSiteReview"],
   },
 ];
 
 export const guideMap = new Map(guides.map((guide) => [guide.slug, guide]));
 
 export const hubQuickAnswer =
-  "Use this hub when you want a direct answer before opening a long walkthrough. Start with the first-hour route, compare weapons and trinkets, then jump into boss prep, platform advice, save behavior, play time, or map notes when that specific question comes up.";
+  "Start with the first-hour guide if the goal is safer progress, then move into weapons, trinkets, bosses, platform choice, save behavior, play time, or map routing when that specific decision appears in-game.";
 
 export function getGuide(slug: string) {
   return guideMap.get(slug);

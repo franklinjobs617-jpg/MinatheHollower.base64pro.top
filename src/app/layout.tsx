@@ -27,9 +27,18 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   applicationName: siteConfig.name,
   authors: [{ name: siteConfig.author }],
+  publisher: siteConfig.name,
   robots: {
     index: true,
     follow: true,
+  },
+  openGraph: {
+    siteName: siteConfig.name,
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
   },
 };
 
