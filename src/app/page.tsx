@@ -178,6 +178,25 @@ export default function Home() {
         </section>
 
         <section className="mx-auto max-w-page px-16 pb-80 md:px-24">
+          <SectionHeader eyebrow="Databases & Tools" title="Search, filter, and track everything." text="Interactive databases for weapons and trinkets, a trinket build planner, and a campaign progress tracker." />
+          <div className="grid gap-16 md:grid-cols-4">
+            {[
+              { title: 'Trinket Database', desc: 'All 60 trinkets, filterable.', href: '/database/trinkets', icon: '💍' },
+              { title: 'Weapon Database', desc: '5 weapons with upgrades.', href: '/database/weapons', icon: '⚔️' },
+              { title: 'Trinket Builder', desc: 'Build & save loadouts.', href: '/tools/trinket-builder', icon: '🔧' },
+              { title: 'Progress Tracker', desc: 'Track your campaign.', href: '/tools/progress-tracker', icon: '📋' },
+            ].map(c => (
+              <Link key={c.href} href={c.href} className="group rounded-xl border-2 border-cloud-gray bg-snow-white p-20 transition hover:border-plasma-blue">
+                <span className="text-2xl">{c.icon}</span>
+                <h3 className="mt-8 font-bold text-crypt-ink">{c.title}</h3>
+                <p className="mt-4 text-sm text-grave-gray">{c.desc}</p>
+                <span className="mt-8 inline-block text-caption font-bold text-plasma-blue">Open →</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-page px-16 pb-80 md:px-24">
           <SectionHeader
             eyebrow="Guide library"
             title="Find the exact page for the problem."
